@@ -1,6 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  // token needed for firebase
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
+
   runApp(const ArchieBell());
 }
 
@@ -9,6 +18,10 @@ class ArchieBell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // request notification permission
+    FirebaseMessaging.instance.requestPermission();
+
     return MaterialApp(
       title: 'Archie Bell',
       theme: ThemeData(
@@ -49,7 +62,7 @@ class SimpleImageTextPage extends StatelessWidget {
             ),
 
             const Text(
-              'Time last seen',
+              'Date & time last seen',
               style: TextStyle(fontSize: 15),
             ),
         
