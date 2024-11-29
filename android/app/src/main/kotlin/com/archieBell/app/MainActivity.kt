@@ -1,4 +1,4 @@
-package com.example.archie_bell
+package com.archieBell.app
 
 import io.flutter.embedding.android.FlutterActivity
 
