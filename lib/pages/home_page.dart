@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/api/mongo_db.dart';
 import 'package:app/models/missing_person_model.dart';
+import 'package:app/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -71,14 +72,31 @@ class _HomePageState extends State<HomePage> {
 
   Widget displayCard(DbModel data) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
+      // child: Padding(
+      //   padding: const EdgeInsets.all(15.0),
+      //   child: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: <Widget>[
+      //       Text(data.id!.oid.toString()),
+      //       Text(data.name.toString()),
+      //       Text(data.lastLocationSeen.toString()),
+      //       Text(data.lastDateTimeSeen.toString()),
+      //       Text(data.additionalInfo.toString()),
+      //     ]),
+      //   ),
+      child: ListTile(
+        onTap: () => {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationPage(missingPersonData: data),))
+        },
+        minTileHeight: 200.0,
+        title: Text(data.name.toString()),
+        trailing: Image.asset('images/placeholder-img.jpg'),
+        subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(data.id!.oid.toString()),
-            Text(data.name.toString()),
             Text(data.lastLocationSeen.toString()),
             Text(data.lastDateTimeSeen.toString()),
             Text(data.additionalInfo.toString()),

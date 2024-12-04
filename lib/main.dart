@@ -1,7 +1,7 @@
 import 'package:app/api/firebase_api.dart';
 import 'package:app/api/mongo_db.dart';
 import 'package:app/firebase_options.dart';
-import 'package:app/pages/notification_page.dart';
+// import 'package:app/pages/notification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/home_page.dart';
@@ -24,9 +24,9 @@ class ArchieBellApp extends StatelessWidget {
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      routes: {
-        '/notification_screen':(context) => const NotificationPage(),
-      },
+      // routes: {
+      //   '/notification_screen':(context) => const NotificationPage(),
+      // },
     );
   }
 }
