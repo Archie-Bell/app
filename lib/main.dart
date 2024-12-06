@@ -64,6 +64,7 @@ class ArchieBellApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const HomePage(),
+      debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
         '/home': (context) => const HomePage(),
