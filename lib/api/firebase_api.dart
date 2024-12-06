@@ -1,5 +1,6 @@
 import 'package:app/pages/home_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseApi {
   // Initiate instance
@@ -22,7 +23,10 @@ class FirebaseApi {
       as it will require an APNS token from the Apple Developer website.
     */
 
-    print('Token received: ' + fCMToken.toString());
+    sendTokenToServer(fCMToken!);
+
+    _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
+
 
     // Initialise settings for push notifications
     initialisePushNotifications();
@@ -46,5 +50,25 @@ class FirebaseApi {
 
     // Attach event listeners whenever the app is opened through notification
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessages);
+  }
+
+  Future<void> sendTokenToServer(String? token) async {
+    try {
+      if (token != null) {
+        String deviceId = 'device_${DateTime.now().millisecondsSinceEpoch}';  // or use persistent ID as discussed
+
+        Map<String, dynamic> deviceToken = {
+          'token': token,
+          'timestamp': FieldValue.serverTimestamp(),
+        };
+
+        await FirebaseFirestore.instance
+          .collection('fcmTokens')
+          .doc(deviceId)
+          .set(deviceToken);
+      }
+    } catch (e) {
+      print('Error sending token to server: $e');
+    }
   }
 }
