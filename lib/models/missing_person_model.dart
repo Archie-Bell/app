@@ -8,6 +8,7 @@ String dbModelToJson(DbModel data) => json.encode(data.toJson());
 class DbModel {
   ObjectId? id;
   String? name;
+  int? age;
   String? lastLocationSeen;
   String? lastDateTimeSeen;
   String? additionalInfo;
@@ -15,6 +16,7 @@ class DbModel {
   DbModel({
     this.id,
     this.name,
+    this.age,
     this.lastLocationSeen,
     this.lastDateTimeSeen,
     this.additionalInfo,
@@ -23,6 +25,7 @@ class DbModel {
   factory DbModel.fromJson(Map<String, dynamic> json) => DbModel(
     id: json["_id"],
     name: json["name"],
+    age: json["age"],
     lastLocationSeen: json["lastLocationSeen"],
     lastDateTimeSeen: json["lastDateTimeSeen"],
     additionalInfo: json["additionalInfo"] ?? "No description provided.",
@@ -31,6 +34,7 @@ class DbModel {
   Map<String, dynamic> toJson() => {
     "_id": id,
     "name": name,
+    "age": age.toString(),
     "lastLocationSeen": lastLocationSeen,
     "lastDateTimeSeen": lastDateTimeSeen,
     "additionalInfo": additionalInfo,
