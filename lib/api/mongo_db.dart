@@ -38,7 +38,7 @@ class MongoDB {
   static Future<List<Map<String, dynamic>>> getData() async {
     final arrayData = await missingPersonsCollection!.find().toList();
 
-    print('Data in collection: ${arrayData.toString()}');
+    // print('Data in collection: ${arrayData.toString()}');
     return arrayData;
   }
 }

@@ -1,22 +1,12 @@
-import 'package:app/models/missing_person_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class NotificationPage extends StatelessWidget {
-  final DbModel? missingPersonData;
-
-  const NotificationPage({super.key, this.missingPersonData});
+  const NotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (missingPersonData == null) {
-      return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Archie Bell"),
-        ),
-        body: const Center(child: Text("No Data Available")),
-      );
-    }
+    final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
 
     return Scaffold(
       appBar: AppBar(
@@ -30,19 +20,19 @@ class NotificationPage extends StatelessWidget {
             Image.asset('images/placeholder-img.jpg', height: 200),
             const SizedBox(height: 20),
             Text(
-              missingPersonData!.name.toString(),
+              message.data['name'],
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Text(
-              'Last Known Location: ${missingPersonData!.lastLocationSeen}',
+              'Last Known Location: ${message.data['lastLocationSeen']}',
               style: const TextStyle(fontSize: 15),
             ),
             Text(
-              'Last Seen: ${missingPersonData!.lastDateTimeSeen}',
+              'Last Seen: ${message.data['lastDateTimeSeen']}',
               style: const TextStyle(fontSize: 15),
             ),
             Text(
-              missingPersonData!.additionalInfo.toString(),
+              message.data['additionalInfo'],
               style: const TextStyle(fontSize: 15),
               textAlign: TextAlign.center,
             ),

@@ -1,72 +1,60 @@
-import 'package:app/pages/home_page.dart';
+import 'package:app/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseApi {
-  // Initiate instance
   final _firebaseMessaging = FirebaseMessaging.instance;
 
-  // Initialise notification system
+  // Initialize notification system
   Future<void> initialiseNotifications() async {
-
     // Request permissions from user (notifications)
     await _firebaseMessaging.requestPermission();
 
-    // Fetch Firebase Cloud Messaging token for device (unique)
+    // Fetch Firebase Cloud Messaging token for the device (unique)
     final fCMToken = await _firebaseMessaging.getToken();
+    print(fCMToken);
 
-    // DEBUG: print token to log (send to server later)
+    // Send the token to the server
+    if (fCMToken != null) {
+      sendTokenToServer(fCMToken);
+    }
 
-    /* 
-      TO-DO: 
-      We need an Apple Developer Account to be able to use the Notification System
-      as it will require an APNS token from the Apple Developer website.
-    */
-
-    sendTokenToServer(fCMToken!);
-
+    // Listen for token refresh events
     _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
 
-
-    // Initialise settings for push notifications
+    // Initialize settings for push notifications
     initialisePushNotifications();
   }
 
   // Handle received messages
   void handleMessages(RemoteMessage? message) {
-    // If message equals to null, do nothing
     if (message == null) return;
 
+    // Navigate to the HomePage with the 'id' argument
     navigatorKey.currentState?.pushNamed(
-      '/notification_screen',
+      '/api/notification',
       arguments: message,
     );
   }
 
-  // Initialise foreground/background settings
+  // Initialize foreground/background settings
   Future initialisePushNotifications() async {
-    // Handle notifications if application is terminated and opened
+    // Handle notifications when the app is terminated and opened from a notification
     FirebaseMessaging.instance.getInitialMessage().then(handleMessages);
 
-    // Attach event listeners whenever the app is opened through notification
+    // Attach event listeners whenever the app is opened through a notification
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessages);
   }
 
-  Future<void> sendTokenToServer(String? token) async {
+  Future<void> sendTokenToServer(String token) async {
     try {
-      if (token != null) {
-        String deviceId = 'device_${DateTime.now().millisecondsSinceEpoch}';  // or use persistent ID as discussed
+      String deviceId = 'device_${DateTime.now().millisecondsSinceEpoch}';
+      Map<String, dynamic> deviceToken = {
+        'token': token,
+        'timestamp': FieldValue.serverTimestamp(),
+      };
 
-        Map<String, dynamic> deviceToken = {
-          'token': token,
-          'timestamp': FieldValue.serverTimestamp(),
-        };
-
-        await FirebaseFirestore.instance
-          .collection('fcmTokens')
-          .doc(deviceId)
-          .set(deviceToken);
-      }
+      await FirebaseFirestore.instance.collection('fcmTokens').doc(deviceId).set(deviceToken);
     } catch (e) {
       print('Error sending token to server: $e');
     }
