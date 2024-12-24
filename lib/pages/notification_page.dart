@@ -41,7 +41,7 @@ class NotificationPage extends StatelessWidget {
                 );
               },
               errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                return Image.asset('assets/fallback_image.png'); // Provide a local fallback image
+                return Image.asset('images/placeholder-img.jpg', height: 200); // Provide a local fallback image
               },
               height: 200,
               width: 200,
