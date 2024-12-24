@@ -12,6 +12,7 @@ class DbModel {
   String? lastLocationSeen;
   String? lastDateTimeSeen;
   String? additionalInfo;
+  String? image;
 
   DbModel({
     this.id,
@@ -20,6 +21,7 @@ class DbModel {
     this.lastLocationSeen,
     this.lastDateTimeSeen,
     this.additionalInfo,
+    this.image,
   });
 
   factory DbModel.fromJson(Map<String, dynamic> json) => DbModel(
@@ -28,8 +30,12 @@ class DbModel {
     age: json["age"],
     lastLocationSeen: json["lastLocationSeen"],
     lastDateTimeSeen: json["lastDateTimeSeen"],
-    additionalInfo: json["additionalInfo"] ?? "No description provided.",
+    additionalInfo: (json["additionalInfo"] == null || json["additionalInfo"].toString().trim().isEmpty) 
+        ? "No description provided."
+        : json["additionalInfo"],
+    image: json["image"] ?? "images/placeholder-img.jpg",
   );
+
 
   Map<String, dynamic> toJson() => {
     "_id": id,
@@ -38,5 +44,6 @@ class DbModel {
     "lastLocationSeen": lastLocationSeen,
     "lastDateTimeSeen": lastDateTimeSeen,
     "additionalInfo": additionalInfo,
+    "image": image,
   };
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app/api/constants.dart';
 import 'package:app/api/mongo_db.dart';
 import 'package:app/models/missing_person_model.dart';
 import 'package:app/pages/notification_page.dart';
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Archie Bell"),
+        title: const Text("Archie Bell", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: SafeArea(
         child: FutureBuilder(
@@ -93,13 +94,28 @@ class _HomePageState extends State<HomePage> {
           );
         },
         minTileHeight: 200.0,
-        title: Text(data.name.toString()),
-        trailing: Image.asset('images/placeholder-img.jpg'),
+        title: Text(data.name.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+        trailing: Image.network(
+                    'http://${YOUR_LOCAL_IP_ADDRESS}/api/${data.image}', // Use "ipconfig" to determine your IPv4 address when testing this application.
+                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                          : null,
+                        ),
+                      );
+                    },
+                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                      return const Text('Failed to load image');
+                    },
+                  ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(data.id!.oid.toString()),
+            // Text(data.id!.oid.toString()),
             Text(data.lastLocationSeen.toString()),
             Text(data.lastDateTimeSeen.toString()),
             Text(data.additionalInfo.toString()),

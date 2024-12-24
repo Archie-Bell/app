@@ -1,3 +1,4 @@
+import 'package:app/api/constants.dart';
 import 'package:app/models/missing_person_model.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class NotificationPage extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Archie Bell"),
+          title: const Text("Archie Bell", style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         body: const Center(child: Text("No Data Available")),
       );
@@ -21,13 +22,30 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Archie Bell"),
+        title: const Text("Archie Bell", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('images/placeholder-img.jpg', height: 200),
+            Image.network(
+              'http://${YOUR_LOCAL_IP_ADDRESS}/api/${missingPersonData!.image}',
+              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                      : null,
+                  ),
+                );
+              },
+              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                return Image.asset('assets/fallback_image.png'); // Provide a local fallback image
+              },
+              height: 200,
+              width: 200,
+            ),
             const SizedBox(height: 20),
             Text(
               missingPersonData!.name.toString(),

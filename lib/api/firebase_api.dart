@@ -30,11 +30,13 @@ class FirebaseApi {
   void handleMessages(RemoteMessage? message) {
     if (message == null) return;
 
-    // Navigate to the HomePage with the 'id' argument
-    navigatorKey.currentState?.pushNamed(
-      '/api/notification',
-      arguments: message,
-    );
+    // Add a delay to allow the navigation context to initialize properly
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (navigatorKey.currentState != null) {
+        // Navigate to the HomePage with the 'id' argument
+        navigatorKey.currentState?.pushNamed('/home');
+      }
+    });
   }
 
   // Initialize foreground/background settings
