@@ -29,7 +29,7 @@ class NotificationPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.network(
-              'http://${YOUR_LOCAL_IP_ADDRESS}/api/${missingPersonData!.image}',
+              'http://$YOUR_LOCAL_IP_ADDRESS:8001/api/${missingPersonData!.image}',
               loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                 if (loadingProgress == null) return child;
                 return Center(

@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
         minTileHeight: 200.0,
         title: Text(data.name.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
         trailing: Image.network(
-                    'http://${YOUR_LOCAL_IP_ADDRESS}/api/${data.image}', // Use "ipconfig" to determine your IPv4 address when testing this application.
+                    'http://$YOUR_LOCAL_IP_ADDRESS:8001/api/${data.image}', // Use "ipconfig" to determine your IPv4 address when testing this application.
                     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) return child;
                       return Center(
