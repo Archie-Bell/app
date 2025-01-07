@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "444216824782",
+    "project_id": "archie-bell-notif-system",
+    "storage_bucket": "archie-bell-notif-system.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444216824782:android:1602c61e5e26310943119f",
+        "android_client_info": {
+          "package_name": "com.archieBell.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMhhPwLt5TKOLE0OT5J3W9tVGs7DhmzBM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
