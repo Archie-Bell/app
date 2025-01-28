@@ -24,14 +24,26 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
                   children: [
                     // Title: ARCHIE BELL (Larger & Bolder)
-                    const Text(
-                      "ARCHIE\nBELL",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 56, // Increased font size
-                        fontWeight: FontWeight.w900, // Extra bold
-                        height: 0.9, // Reduces space between "ARCHIE" and "BELL"
-                      ),
+                    const Column(
+                      mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
+                      crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the left
+                      children: [
+                        Text(
+                          "ARCHIE",
+                          style: TextStyle(
+                            fontSize: 56, // Increased font size
+                            fontWeight: FontWeight.w900, // Extra bold
+                          ),
+                        ),
+                        SizedBox(height: 0), // Reduced space between ARCHIE and BELL
+                        Text(
+                          "BELL",
+                          style: TextStyle(
+                            fontSize: 56, // Increased font size
+                            fontWeight: FontWeight.w900, // Extra bold
+                          ),
+                        ),
+                      ],
                     ),
 
                     const SizedBox(height: 20), // Spacing
