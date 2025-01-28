@@ -1,124 +1,147 @@
-import 'dart:async';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:app/api/mongo_db.dart';
-import 'package:app/models/missing_person_model.dart';
-import 'package:app/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  final String? notificationId;
-
-  const HomePage({super.key, this.notificationId});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late Timer _timer;
-  late Future<List> _dataFuture;
-  String? notificationId;
-
-  @override
-  void initState() {
-    super.initState();
-    notificationId = widget.notificationId;
-    _dataFuture = MongoDB.getData();
-
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      setState(() {
-        _dataFuture = MongoDB.getData();
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
+  String? selectedLanguage;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Archie Bell", style: TextStyle(fontWeight: FontWeight.bold)),
-      ),
       body: SafeArea(
-        child: FutureBuilder(
-          future: _dataFuture,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasData) {
-              var totalData = snapshot.data.length;
-              // print("Total Data: $totalData");
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Proper spacing
+          children: [
+            // Centered Content (Title + Language Selection)
+            Expanded(
+              child: Center( // This ensures everything stays centered
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
+                  children: [
+                    // Title: ARCHIE BELL
+                    const Text(
+                      "ARCHIE\nBELL",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 48, // Large title
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
 
-              // Filter the data if notificationId is provided
-              List filteredData = snapshot.data;
-              if (notificationId != null) {
-                filteredData = snapshot.data.where((data) {
-                  return DbModel.fromJson(data).id == notificationId;
-                }).toList();
-              }
+                    const SizedBox(height: 20), // Spacing
 
-              return ListView.builder(
-                itemCount: filteredData.length,
-                itemBuilder: (context, index) {
-                  var data = filteredData[index];
-                  return displayCard(DbModel.fromJson(data));
-                },
-              );
-            } else if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot.error}"));
-            } else {
-              return const Center(child: Text("No data available"));
-            }
-          },
-        ),
-      ),
-    );
-  }
+                    // Language Selection Text
+                    const Text(
+                      "Select your language.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
+                    ),
 
-  Widget displayCard(DbModel data) {
-    return Card(
-      child: ListTile(
-        onTap: () {
-          // Navigate to the notification page with the missing person data
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NotificationPage(missingPersonData: data),
-            ),
-          );
-        },
-        minTileHeight: 200.0,
-        title: Text(data.name.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
-        trailing: Image.network(
-                    'http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8001/api/${data.image}', // Use "ipconfig" to determine your IPv4 address when testing this application.
-                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                          : null,
+                    const SizedBox(height: 10),
+
+                    // Dropdown Button for Language Selection
+                    SizedBox(
+                      width: 200, // Matches title width
+                      child: DropdownButtonFormField<String>(
+                        value: selectedLanguage,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
-                      );
-                    },
-                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                      return const Text('Failed to load image');
-                    },
+                        hint: const Text("Select an option"),
+                        items: ["English", "Spanish", "French"]
+                            .map((lang) => DropdownMenuItem(
+                                  value: lang,
+                                  child: Text(lang),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedLanguage = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Buttons at the bottom, centered
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20), // Adds bottom padding
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 200, // Matches title width
+                    child: OutlinedButton(
+                      onPressed: () {
+                        // Navigate to Staff Login Page
+                      },
+                      child: const Text("Login as Staff"),
+                    ),
                   ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Text(data.id!.oid.toString()),
-            Text(data.lastLocationSeen.toString()),
-            Text(data.lastDateTimeSeen.toString()),
-            Text(data.additionalInfo.toString()),
+
+                  const SizedBox(height: 10),
+
+                  SizedBox(
+                    width: 200, // Matches title width
+                    child: OutlinedButton(
+                      onPressed: () {
+                        // Navigate to Main App
+                      },
+                      child: const Text("Continue"),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20), // Extra space for better layout
+
+                  // Terms of Use and Privacy Policy
+                  Column(
+                    children: [
+                      const Text(
+                        "By using our services, you also agree to our",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // Open Terms of Use
+                        },
+                        child: const Text(
+                          "Terms of Use",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // Open Privacy Policy
+                        },
+                        child: const Text(
+                          "Privacy Policy",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
