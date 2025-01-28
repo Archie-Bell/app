@@ -19,46 +19,76 @@ class _HomePageState extends State<HomePage> {
           children: [
             // Centered Content (Title + Language Selection)
             Expanded(
-              child: Center( // This ensures everything stays centered
+              child: Center( // Ensures everything is centered
                 child: Column(
                   mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
                   children: [
-                    // Title: ARCHIE BELL
+                    // Title: ARCHIE BELL (Larger & Bolder)
                     const Text(
                       "ARCHIE\nBELL",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 48, // Large title
-                        fontWeight: FontWeight.bold,
+                        fontSize: 56, // Increased font size
+                        fontWeight: FontWeight.w900, // Extra bold
+                        height: 0.9, // Reduces space between "ARCHIE" and "BELL"
                       ),
                     ),
 
                     const SizedBox(height: 20), // Spacing
 
-                    // Language Selection Text
+                    // Language Selection Text (Now Bold & Black)
                     const Text(
                       "Select your language.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold, // Bold
+                        color: Colors.black, // Black color
+                      ),
                     ),
 
                     const SizedBox(height: 10),
 
-                    // Dropdown Button for Language Selection
+                    // Dropdown Button for Language Selection (Now Styled)
                     SizedBox(
                       width: 200, // Matches title width
                       child: DropdownButtonFormField<String>(
                         value: selectedLanguage,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Colors.black, // Strong black outline
+                              width: 2, // Thicker border
+                            ),
+                            borderRadius: BorderRadius.zero, // Sharp corners
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Colors.black, // Strong black outline
+                              width: 2, // Thicker border
+                            ),
+                            borderRadius: BorderRadius.zero, // Sharp corners
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10), // Adjust padding
+                        ),
+                        hint: const Text(
+                          "Select an option",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold, // Bold text
+                            color: Colors.black, // Black color
                           ),
                         ),
-                        hint: const Text("Select an option"),
+                        icon: const Icon(Icons.arrow_drop_down, color: Colors.black), // Black dropdown icon
                         items: ["English", "Spanish", "French"]
                             .map((lang) => DropdownMenuItem(
                                   value: lang,
-                                  child: Text(lang),
+                                  child: Text(
+                                    lang,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold, // Bold text
+                                      color: Colors.black, // Black color
+                                    ),
+                                  ),
                                 ))
                             .toList(),
                         onChanged: (value) {
@@ -82,10 +112,22 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: 200, // Matches title width
                     child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.black, width: 2), // Stronger black outline
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero, // Sharp corners
+                        ),
+                      ),
                       onPressed: () {
                         // Navigate to Staff Login Page
                       },
-                      child: const Text("Login as Staff"),
+                      child: const Text(
+                        "Login as Staff",
+                        style: TextStyle(
+                          color: Colors.black, // Black text
+                          fontWeight: FontWeight.bold, // Bold text
+                        ),
+                      ),
                     ),
                   ),
 
@@ -94,10 +136,22 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: 200, // Matches title width
                     child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.black, width: 2), // Stronger black outline
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero, // Sharp corners
+                        ),
+                      ),
                       onPressed: () {
                         // Navigate to Main App
                       },
-                      child: const Text("Continue"),
+                      child: const Text(
+                        "Continue",
+                        style: TextStyle(
+                          color: Colors.black, // Black text
+                          fontWeight: FontWeight.bold, // Bold text
+                        ),
+                      ),
                     ),
                   ),
 
