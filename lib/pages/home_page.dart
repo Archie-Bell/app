@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onPressed: () {
-                        // Navigate to Main App
+                        Navigator.pushNamed(context, '/list'); // Navigate to ListPage
                       },
                       child: const Text(
                         "Continue",

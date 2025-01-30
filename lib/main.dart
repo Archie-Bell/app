@@ -2,6 +2,7 @@ import 'package:app/api/firebase_api.dart';
 import 'package:app/api/mongo_db.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/pages/home_page.dart';
+import 'package:app/pages/list_page.dart';
 import 'package:app/pages/notification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class ArchieBellApp extends StatelessWidget {
       routes: {
         '/home': (context) => const HomePage(),
         '/api/notification': (context) => const NotificationPage(),
+                '/list': (context) => const ListPage(), // Added ListPage route
       },
     );
   }
