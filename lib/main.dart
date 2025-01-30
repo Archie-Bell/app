@@ -4,6 +4,7 @@ import 'package:app/firebase_options.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/list_page.dart';
 import 'package:app/pages/notification_page.dart';
+import 'package:app/pages/person_details_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
@@ -72,7 +73,9 @@ class ArchieBellApp extends StatelessWidget {
       routes: {
         '/home': (context) => const HomePage(),
         '/api/notification': (context) => const NotificationPage(),
-                '/list': (context) => const ListPage(), // Added ListPage route
+                '/list': (context) => const ListPage(), 
+                                 '/person_details': (context) => const PersonDetailsPage(person: {},), 
+
       },
     );
   }
