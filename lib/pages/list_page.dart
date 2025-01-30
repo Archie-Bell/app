@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'person_details_page.dart'; 
 
 class ListPage extends StatelessWidget {
   const ListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Example list of missing persons (this will be replaced with database data later)
+    List<Map<String, String>> missingPersons = [
+      {'name': 'Person 1', 'age': '70', 'lastLocation': 'Moose Jaw, SK'},
+      {'name': 'Person 2', 'age': '50', 'lastLocation': 'Regina, SK'},
+    ];
+
     return Scaffold(
       backgroundColor: Colors.grey[200], // Light background
       body: SafeArea(
@@ -83,58 +90,43 @@ class ListPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ListView.builder(
-                          itemCount: 6, // Display 6 sample persons
+                          itemCount: missingPersons.length,
                           itemBuilder: (context, index) {
+                            var person = missingPersons[index];
                             return Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4),
                                 side: const BorderSide(color: Colors.black, width: 1),
                               ),
                               margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  children: [
-                                    // Placeholder for Profile Image
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey[300],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    
-                                    // Person Info
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "No Missing Persons",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            "Location Info Here",
-                                            style: TextStyle(fontSize: 14),
-                                          ),
-                                          Text(
-                                            "Last Seen Info Here",
-                                            style: TextStyle(fontSize: 14),
-                                          ),
-                                          Text(
-                                            "Recently Updated Info Here",
-                                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                              child: ListTile(
+                                leading: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.grey[300],
+                                  ),
                                 ),
+                                title: Text(
+                                  "${person['name']}, ${person['age']}",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle: Text("Last location: ${person['lastLocation']}",
+                                    style: const TextStyle(fontSize: 14)),
+                                trailing: const Icon(Icons.arrow_forward),
+                                onTap: () {
+                                  // Navigate to PersonDetailsPage with person's data
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PersonDetailsPage(person: person),
+                                    ),
+                                  );
+                                },
                               ),
                             );
                           },
