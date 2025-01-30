@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:444216824782:android:1602c61e5e26310943119f",
+        "mobilesdk_app_id": "1:444216824782:android:b208a537b801c52743119f",
         "android_client_info": {
-          "package_name": "com.archieBell.app"
+          "package_name": "com.sp.archiebell"
         }
       },
       "oauth_client": [],
