@@ -1,3 +1,5 @@
+
+
 import 'package:app/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +11,9 @@ class FirebaseApi {
   Future<void> initialiseNotifications() async {
     // Request permissions from user (notifications)
     await _firebaseMessaging.requestPermission();
+
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true, sound: true, badge: true);
 
     // Fetch Firebase Cloud Messaging token for the device (unique)
     final fCMToken = await _firebaseMessaging.getToken();
@@ -56,7 +61,10 @@ class FirebaseApi {
         'timestamp': FieldValue.serverTimestamp(),
       };
 
-      await FirebaseFirestore.instance.collection('fcmTokens').doc(deviceId).set(deviceToken);
+      await FirebaseFirestore.instance
+          .collection('fcmTokens')
+          .doc(deviceId)
+          .set(deviceToken);
     } catch (e) {
       print('Error sending token to server: $e');
     }
