@@ -5,6 +5,7 @@ import 'package:app/pages/new_home_page.dart';
 import 'package:app/pages/list_page.dart';
 import 'package:app/pages/notification_page.dart';
 import 'package:app/pages/person_details_page.dart';
+import 'package:app/pages/phone_number_page.dart';
 import 'package:app/pages/verification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class ArchieBellApp extends StatelessWidget {
         '/person_details': (context) => const PersonDetailsPage(person: {},), 
 
         '/verification_page': (context) => const VerificationPage(),
+        '/phone_number_page': (context) => const PhoneNumberPage(),
       },
     );
   }
