@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:app/main.dart';
 
 class VerificationPage extends StatelessWidget {
   const VerificationPage({super.key});
@@ -84,7 +85,10 @@ class VerificationPage extends StatelessWidget {
 
             // "Go Back" button
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Temporarily route the button to the Home Page
+                navigatorKey.currentState?.pushNamed('/home_page');
+              },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 50),
                 side: const BorderSide(color: Colors.black),
