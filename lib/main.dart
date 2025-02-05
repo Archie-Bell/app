@@ -5,6 +5,7 @@ import 'package:app/pages/new_home_page.dart';
 import 'package:app/pages/list_page.dart';
 import 'package:app/pages/notification_page.dart';
 import 'package:app/pages/person_details_page.dart';
+import 'package:app/pages/verification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -44,11 +45,12 @@ class ArchieBellApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
-        '/home': (context) => const HomePage(),
+        '/home_page': (context) => const HomePage(),
         '/api/notification': (context) => const NotificationPage(),
         '/list': (context) => const ListPage(), 
         '/person_details': (context) => const PersonDetailsPage(person: {},), 
 
+        '/verification_page': (context) => const VerificationPage(),
       },
     );
   }
