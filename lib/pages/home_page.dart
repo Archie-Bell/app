@@ -56,12 +56,26 @@ class _HomePageState extends State<HomePage> {
                 navigatorKey.currentState?.pushNamed('/verification_page');
               },
               style: OutlinedButton.styleFrom(
+                minimumSize: const Size(250, 40),
                 side: const BorderSide(color: Colors.black),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
               child: const Text("View Verification Page", style: TextStyle(color: Colors.black)),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                navigatorKey.currentState?.pushNamed('/phone_number_page');
+              },
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(250, 40),
+                side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              child: const Text("View Phone Number Page", style: TextStyle(color: Colors.black)),
             ),
             Expanded(  // Ensures the FutureBuilder takes the remaining space
               child: FutureBuilder(

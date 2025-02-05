@@ -1,10 +1,10 @@
+import 'package:app/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:app/main.dart';
 
-class VerificationPage extends StatelessWidget {
-  const VerificationPage({super.key});
+class PhoneNumberPage extends StatelessWidget {
+  const PhoneNumberPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,14 @@ class VerificationPage extends StatelessWidget {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-              'Verification code has been sent to your SMS.',
+              'Enter your phone number.',
               style: TextStyle(
                 fontWeight: FontWeight.bold
                 ),
               textAlign: TextAlign.center,
               ),
             ),
+            
             const SizedBox(height: 1), // Space between Text and TextField
 
             // TextField
@@ -37,14 +38,17 @@ class VerificationPage extends StatelessWidget {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Only digit inputs are allowed
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "123456",
+                hintText: "(123) 456-7890",
               ),
             ),
             const SizedBox(height: 10),
 
-            // Verify button
+            // Continue button
             ElevatedButton(
-              onPressed: () {}, // TODO: add logic to verify verification code
+              onPressed: () {
+                // Ensure user is brought to the verification page upon button press
+                navigatorKey.currentState?.pushNamed('/verification_page');
+              },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50), // Min width is available horizontal space and min height is 50 px
                 side: const BorderSide(color: Colors.black),
@@ -53,13 +57,13 @@ class VerificationPage extends StatelessWidget {
                 ),
               ),
               child: const Text(
-                'Verify',
+                "Continue",
                 style: TextStyle(color: Colors.black),
               ),
             ),
             const SizedBox(height: 10),
         
-            // Resend verification code
+            // Why the info is needed
             Align( // Widget that will align text to the left border of the verify button
               alignment: Alignment.centerLeft,
               child: RichText(
@@ -67,11 +71,11 @@ class VerificationPage extends StatelessWidget {
                 text: TextSpan(
                   style: const TextStyle(color: Colors.black),
                   recognizer: TapGestureRecognizer()..onTap = () { // Makes text interactive, so it can be tapped instead of using a button
-                    // TODO: Add logic to resend verification code
+                    // TODO: Add logic 
                   },
                   children: const [
                     TextSpan(
-                      text: "Didn't receive it? Send again.",
+                      text: "Why do we need this information?",
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,
@@ -86,8 +90,8 @@ class VerificationPage extends StatelessWidget {
             // "Go Back" button
             OutlinedButton(
               onPressed: () {
-                // Route the button to the Phone Number Page
-                navigatorKey.currentState?.pushNamed('/phone_number_page');
+                // Temporarily route the button to the Home Page
+                navigatorKey.currentState?.pushNamed('/home_page');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 50),
