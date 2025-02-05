@@ -113,7 +113,7 @@ class VerificationPage extends StatelessWidget {
                 },
                 children: const [
                   TextSpan(
-                    text: 'By using our services, you also agree to our ',
+                    text: 'By using our services, you also agree to our \n',
                   ),
                   TextSpan(
                     text: 'Terms of Use',
