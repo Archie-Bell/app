@@ -1,3 +1,4 @@
+import 'package:app/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +45,10 @@ class PhoneNumberPage extends StatelessWidget {
 
             // Continue button
             ElevatedButton(
-              onPressed: () {}, // TODO: add logic to continue
+              onPressed: () {
+                // Ensure user is brought to the verification page upon button press
+                navigatorKey.currentState?.pushNamed('/verification_page');
+              },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50), // Min width is available horizontal space and min height is 50 px
                 side: const BorderSide(color: Colors.black),
@@ -85,7 +89,10 @@ class PhoneNumberPage extends StatelessWidget {
 
             // "Go Back" button
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Temporarily route the button to the Home Page
+                navigatorKey.currentState?.pushNamed('/home_page');
+              },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 50),
                 side: const BorderSide(color: Colors.black),
@@ -110,7 +117,7 @@ class PhoneNumberPage extends StatelessWidget {
                 },
                 children: const [
                   TextSpan(
-                    text: 'By using our services, you also agree to our ',
+                    text: 'By using our services, you also agree to our \n',
                   ),
                   TextSpan(
                     text: 'Terms of Use',
