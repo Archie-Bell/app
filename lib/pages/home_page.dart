@@ -4,6 +4,7 @@ import 'package:app/api/mongo_db.dart';
 import 'package:app/models/missing_person_model.dart';
 import 'package:app/pages/notification_page.dart';
 import 'package:flutter/material.dart';
+import 'package:app/main.dart';
 
 class HomePage extends StatefulWidget {
   final String? notificationId;
@@ -25,7 +26,8 @@ class _HomePageState extends State<HomePage> {
     notificationId = widget.notificationId;
     _dataFuture = MongoDB.getData();
 
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    // Make duration for 60 instead of 5 for debugging purposes
+    _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
       setState(() {
         _dataFuture = MongoDB.getData();
       });
@@ -46,38 +48,56 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Archie Bell", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: SafeArea(
-        child: FutureBuilder(
-          future: _dataFuture,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasData) {
-              var totalData = snapshot.data.length;
-              // print("Total Data: $totalData");
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // Centers the column's content vertically
+          children: [
+            OutlinedButton(
+              onPressed: () {
+                navigatorKey.currentState?.pushNamed('/verification_page');
+              },
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              child: const Text("View Verification Page", style: TextStyle(color: Colors.black)),
+            ),
+            Expanded(  // Ensures the FutureBuilder takes the remaining space
+              child: FutureBuilder(
+                future: _dataFuture,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasData) {
+                    var totalData = snapshot.data.length;
 
-              // Filter the data if notificationId is provided
-              List filteredData = snapshot.data;
-              if (notificationId != null) {
-                filteredData = snapshot.data.where((data) {
-                  return DbModel.fromJson(data).id == notificationId;
-                }).toList();
-              }
+                    // Filter the data if notificationId is provided
+                    List filteredData = snapshot.data;
+                    if (notificationId != null) {
+                      filteredData = snapshot.data.where((data) {
+                        return DbModel.fromJson(data).id == notificationId;
+                      }).toList();
+                    }
 
-              return ListView.builder(
-                itemCount: filteredData.length,
-                itemBuilder: (context, index) {
-                  var data = filteredData[index];
-                  return displayCard(DbModel.fromJson(data));
+                    return ListView.builder(
+                      itemCount: filteredData.length,
+                      itemBuilder: (context, index) {
+                        var data = filteredData[index];
+                        return displayCard(DbModel.fromJson(data));
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error: ${snapshot.error}"));
+                  } else {
+                    return const Center(child: Text("No data available"));
+                  }
                 },
-              );
-            } else if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot.error}"));
-            } else {
-              return const Center(child: Text("No data available"));
-            }
-          },
+              ),
+            ),
+          ],
         ),
-      ),
+      )
     );
   }
 
