@@ -3,6 +3,7 @@ import 'package:app/api/mongo_db.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/notification_page.dart';
+import 'package:app/pages/verification_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
@@ -69,8 +70,9 @@ class ArchieBellApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
-        '/home': (context) => const HomePage(),
+        '/home_page': (context) => const HomePage(),
         '/api/notification': (context) => const NotificationPage(),
+        '/verification_page': (context) => const VerificationPage(),
       },
     );
   }
