@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/list'); // Navigate to ListPage
+                        Navigator.pushNamed(context, '/phone_number_page'); // Regular users will be prompted to the phone number verification screen
                       },
                       child: const Text(
                         "Continue",
