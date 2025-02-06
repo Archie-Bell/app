@@ -1,9 +1,12 @@
 import 'package:app/api/firebase_api.dart';
 import 'package:app/api/mongo_db.dart';
 import 'package:app/firebase_options.dart';
+import 'package:app/pages/legacy_home_page.dart';
 import 'package:app/pages/new_home_page.dart';
 import 'package:app/pages/list_page.dart';
 import 'package:app/pages/notification_page.dart';
+import 'package:app/pages/phone_number_page.dart';
+import 'package:app/pages/verification_page.dart';
 import 'package:app/pages/person_details_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -71,11 +74,13 @@ class ArchieBellApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
-        '/home': (context) => const HomePage(),
+        '/legacy_home_page': (context) => const LegacyHomePage(),
+        '/new_home_page': (context) => const HomePage(),
         '/api/notification': (context) => const NotificationPage(),
-        '/list': (context) => const ListPage(), 
+        '/verification_page': (context) => const VerificationPage(),
+        '/phone_number_page': (context) => const PhoneNumberPage(),
+        '/list_page': (context) => const ListPage(), 
         '/person_details': (context) => const PersonDetailsPage(person: {},), 
-
       },
     );
   }

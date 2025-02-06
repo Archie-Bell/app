@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'person_details_page.dart'; 
+import 'package:app/main.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage({super.key});
@@ -145,7 +146,7 @@ class ListPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildBottomButton("Dashboard"),
-                  _buildBottomButton("Settings"),
+                  _buildBottomButton("Debug"), // This is where the Settings button will be, but for now, this is the button used for debugging
                 ],
               ),
             ),
@@ -169,7 +170,10 @@ class ListPage extends StatelessWidget {
             ),
             padding: const EdgeInsets.symmetric(vertical: 14),
           ),
-          onPressed: () {},
+          onPressed: () {
+            // Temporarily route the button to the old home page for debugging purposes
+            navigatorKey.currentState?.pushNamed("/legacy_home_page");
+          },
           child: Text(
             text,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
