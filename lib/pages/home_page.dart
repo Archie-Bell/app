@@ -66,22 +66,22 @@ class _HomePageState extends State<HomePage> {
                       width: 200, // Matches title width
                       child: DropdownButtonFormField<String>(
                         value: selectedLanguage,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: Colors.black, // Strong black outline
                               width: 2, // Thicker border
                             ),
                             borderRadius: BorderRadius.zero, // Sharp corners
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: Colors.black, // Strong black outline
                               width: 2, // Thicker border
                             ),
                             borderRadius: BorderRadius.zero, // Sharp corners
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10), // Adjust padding
+                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 10), // Adjust padding
                         ),
                         hint: const Text(
                           "Select an option",
