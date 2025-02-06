@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/list_page'); // Navigate to ListPage
+                        Navigator.pushNamed(context, '/phone_number_page'); // Regular users will be prompted to the phone number verification screen
                       },
                       child: const Text(
                         "Continue",
@@ -212,6 +212,9 @@ class _HomePageState extends State<HomePage> {
                                 ..onTap = () {
                                   // Open Privacy Policy
                                 },
+                            ),
+                            const TextSpan(
+                              text: '.',
                             ),
                           ],
                         ),
