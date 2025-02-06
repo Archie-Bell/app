@@ -6,16 +6,23 @@ import 'package:app/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/main.dart';
 
-class HomePage extends StatefulWidget {
+/*
+
+To ensure efficient migration to the new interface, 
+keeping the old code is necessary until everything is moved over before finally deleting.
+
+*/
+
+class LegacyHomePage extends StatefulWidget {
   final String? notificationId;
 
-  const HomePage({super.key, this.notificationId});
+  const LegacyHomePage({super.key, this.notificationId});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<LegacyHomePage> createState() => _LegacyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LegacyHomePageState extends State<LegacyHomePage> {
   late Timer _timer;
   late Future<List> _dataFuture;
   String? notificationId;
@@ -77,6 +84,32 @@ class _HomePageState extends State<HomePage> {
               ),
               child: const Text("View Phone Number Page", style: TextStyle(color: Colors.black)),
             ),
+            OutlinedButton(
+              onPressed: () {
+                navigatorKey.currentState?.pushNamed('/new_home_page');
+              },
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(250, 40),
+                side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              child: const Text("View New Home Page", style: TextStyle(color: Colors.black)),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                navigatorKey.currentState?.pushNamed('/list_page');
+              },
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(250, 40),
+                side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              child: const Text("View List Page", style: TextStyle(color: Colors.black)),
+            ),
             Expanded(  // Ensures the FutureBuilder takes the remaining space
               child: FutureBuilder(
                 future: _dataFuture,
@@ -84,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasData) {
-                    var totalData = snapshot.data.length;
+                    // var totalData = snapshot.data.length;
 
                     // Filter the data if notificationId is provided
                     List filteredData = snapshot.data;

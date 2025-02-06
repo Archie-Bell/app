@@ -91,7 +91,7 @@ class PhoneNumberPage extends StatelessWidget {
             OutlinedButton(
               onPressed: () {
                 // Temporarily route the button to the Home Page
-                navigatorKey.currentState?.pushNamed('/home_page');
+                navigatorKey.currentState?.pushNamed('/new_home_page');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 50),

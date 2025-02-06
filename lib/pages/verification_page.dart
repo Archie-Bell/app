@@ -44,7 +44,9 @@ class VerificationPage extends StatelessWidget {
 
             // Verify button
             ElevatedButton(
-              onPressed: () {}, // TODO: add logic to verify verification code
+              onPressed: () {
+                navigatorKey.currentState?.pushNamed("/list_page"); // Freely allow access to the next page without the verification for now
+              }, // TODO: add logic to verify verification code
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50), // Min width is available horizontal space and min height is 50 px
                 side: const BorderSide(color: Colors.black),
@@ -107,13 +109,13 @@ class VerificationPage extends StatelessWidget {
               text: TextSpan(
                 style: const TextStyle(
                   color: Colors.black
-                  ),
+                ),
                 recognizer: TapGestureRecognizer()..onTap = () { // Makes text interactive, so it can be tapped instead of using a button
                   // TODO: Add logic to view terms of use and privacy policy
                 },
                 children: const [
                   TextSpan(
-                    text: 'By using our services, you also agree to our \n',
+                    text: 'By using our services, you also agree to our\n',
                   ),
                   TextSpan(
                     text: 'Terms of Use',
