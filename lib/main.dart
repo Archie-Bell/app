@@ -46,8 +46,8 @@ class ArchieBellApp extends StatelessWidget {
       routes: {
         '/home': (context) => const HomePage(),
         '/api/notification': (context) => const NotificationPage(),
-                '/list': (context) => const ListPage(), 
-                                 '/person_details': (context) => const PersonDetailsPage(person: {},), 
+        '/list': (context) => const ListPage(), 
+        '/person_details': (context) => const PersonDetailsPage(person: {},), 
 
       },
     );
