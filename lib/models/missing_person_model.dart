@@ -28,11 +28,11 @@ class DbModel {
     id: json["_id"],
     name: json["name"],
     age: json["age"],
-    lastLocationSeen: json["lastLocationSeen"],
-    lastDateTimeSeen: json["lastDateTimeSeen"],
-    additionalInfo: (json["additionalInfo"] == null || json["additionalInfo"].toString().trim().isEmpty) 
+    lastLocationSeen: json["last_location_seen"],
+    lastDateTimeSeen: json["last_date_time_seen"],
+    additionalInfo: (json["additional_info"] == null || json["additional_info"].toString().trim().isEmpty) 
         ? "No description provided."
-        : json["additionalInfo"],
+        : json["additional_info"],
     image: json["image"] ?? "images/placeholder-img.jpg",
   );
 
