@@ -33,7 +33,9 @@ class StaffHomepage extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.settings),
-                    onPressed: () {}, // TODO: add logic to show settings
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/legacy_home_page");
+                    }, // TODO: Route temporarily to debug
                   ),
                 ],
               ),

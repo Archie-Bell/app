@@ -132,6 +132,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onPressed: () {
                         // Navigate to Staff Login Page
+                        Navigator.pushNamed(context, "/staff/home_page");
                       },
                       child: const Text(
                         "Login as Staff",
