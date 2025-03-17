@@ -174,6 +174,7 @@ class ListPage extends StatelessWidget {
             // Temporarily route the button to the old home page for debugging purposes
             navigatorKey.currentState?.pushNamed("/legacy_home_page");
           },
+
           child: Text(
             text,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
