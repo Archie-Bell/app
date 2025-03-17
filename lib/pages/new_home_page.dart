@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -173,35 +174,50 @@ class _HomePageState extends State<HomePage> {
                   // Terms of Use and Privacy Policy
                   Column(
                     children: [
-                      const Text(
-                        "By using our services, you also agree to our",
+                      RichText(
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Open Terms of Use
-                        },
-                        child: const Text(
-                          "Terms of Use",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
+                        text: TextSpan(
+                          style: const TextStyle(
+                            color: Colors.black
                           ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Open Privacy Policy
-                        },
-                        child: const Text(
-                          "Privacy Policy",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
+                          children: [
+                            const TextSpan(
+                              text: "By using our services, you also agree to our\n"
+                              ),
+                            TextSpan(
+                              text: "Terms of Use",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  // Open Terms of Use
+                                },
+                            ),
+                            const TextSpan(
+                              text: " and ",
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Privacy Policy",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  // Open Privacy Policy
+                                },
+                            ),
+                            const TextSpan(
+                              text: '.',
+                            ),
+                          ],
                         ),
                       ),
                     ],

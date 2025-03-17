@@ -109,13 +109,13 @@ class VerificationPage extends StatelessWidget {
               text: TextSpan(
                 style: const TextStyle(
                   color: Colors.black
-                  ),
+                ),
                 recognizer: TapGestureRecognizer()..onTap = () { // Makes text interactive, so it can be tapped instead of using a button
                   // TODO: Add logic to view terms of use and privacy policy
                 },
                 children: const [
                   TextSpan(
-                    text: 'By using our services, you also agree to our \n',
+                    text: 'By using our services, you also agree to our\n',
                   ),
                   TextSpan(
                     text: 'Terms of Use',
