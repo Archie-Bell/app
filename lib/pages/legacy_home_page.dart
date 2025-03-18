@@ -161,7 +161,7 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
           );
         },
         minTileHeight: 200.0,
-        title: Text(data.name.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text("${data.name.toString()}, ${data.age.toString()}", style: const TextStyle(fontWeight: FontWeight.bold)),
         trailing: Image.network(
                     'http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8001/api/${data.image}', // Use "ipconfig" to determine your IPv4 address when testing this application.
                     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {

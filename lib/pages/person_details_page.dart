@@ -34,7 +34,7 @@ class PersonDetailsPage extends StatelessWidget {
                       child: Icon(Icons.person, size: 50, color: Colors.white),
                     ),
                     const SizedBox(height: 10),
-                    
+
                     // Person's Name and Age
                     Text(
                       "${person['name']}, ${person['age']}",

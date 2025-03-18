@@ -40,7 +40,7 @@ class DbModel {
   Map<String, dynamic> toJson() => {
     "_id": id,
     "name": name,
-    "age": age.toString(),
+    "age": age,
     "lastLocationSeen": lastLocationSeen,
     "lastDateTimeSeen": lastDateTimeSeen,
     "additionalInfo": additionalInfo,

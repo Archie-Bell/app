@@ -48,7 +48,7 @@ class NotificationPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              missingPersonData!.name.toString(),
+              "${missingPersonData!.name.toString()}, ${missingPersonData!.age.toString()}",
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Text(
