@@ -110,6 +110,19 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
               ),
               child: const Text("View List Page", style: TextStyle(color: Colors.black)),
             ),
+            OutlinedButton(
+              onPressed: () {
+                navigatorKey.currentState?.pushNamed('/staff/home_page');
+              },
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(250, 40),
+                side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              child: const Text("View Staff Home Page", style: TextStyle(color: Colors.black)),
+            ),
             Expanded(  // Ensures the FutureBuilder takes the remaining space
               child: FutureBuilder(
                 future: _dataFuture,
