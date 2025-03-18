@@ -42,5 +42,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Apple-related build artifacts
+/android/app/.cxx
+
 # Environment Variables
 .env
