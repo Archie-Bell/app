@@ -120,13 +120,12 @@ class ListPage extends StatelessWidget {
                                     style: const TextStyle(fontSize: 14)),
                                 trailing: const Icon(Icons.arrow_forward),
                                 onTap: () {
-                                  // Navigate to PersonDetailsPage with person's data
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PersonDetailsPage(person: person),
-                                    ),
-                                  );
+                                  // Ensure usage of showModalBottomSheet instead of Navigator
+                                  showModalBottomSheet(
+                                    backgroundColor: Colors.transparent,
+                                    isScrollControlled: true,
+                                    context: context, 
+                                    builder: (context) => PersonDetailsPage(person: person));
                                 },
                               ),
                             );
