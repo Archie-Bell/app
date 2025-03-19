@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.archieBell.app"
+    namespace = "com.sp.archiebell"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
