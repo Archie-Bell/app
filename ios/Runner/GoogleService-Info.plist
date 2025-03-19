@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.archieBell.app</string>
+	<string>com.sp.archiebell</string>
 	<key>PROJECT_ID</key>
 	<string>archie-bell-notif-system</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:444216824782:ios:3b9bd6091da75f4a43119f</string>
+	<string>1:444216824782:ios:615914df08e9702943119f</string>
 </dict>
 </plist>
