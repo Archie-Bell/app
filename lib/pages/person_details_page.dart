@@ -95,10 +95,18 @@ class PersonDetailsPage extends StatelessWidget {
 
               // Volunteer Button
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
                 onPressed: () {
                   // Action for volunteering (to be implemented)
                 },
-                child: const Text("Volunteer"),
+                child: const Text("Found this person?"),
               ),
             ],
           ),
