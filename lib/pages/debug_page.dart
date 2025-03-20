@@ -13,16 +13,16 @@ keeping the old code is necessary until everything is moved over before finally 
 
 */
 
-class LegacyHomePage extends StatefulWidget {
+class DebugPage extends StatefulWidget {
   final String? notificationId;
 
-  const LegacyHomePage({super.key, this.notificationId});
+  const DebugPage({super.key, this.notificationId});
 
   @override
-  State<LegacyHomePage> createState() => _LegacyHomePageState();
+  State<DebugPage> createState() => _DebugPageState();
 }
 
-class _LegacyHomePageState extends State<LegacyHomePage> {
+class _DebugPageState extends State<DebugPage> {
   late Timer _timer;
   late Future<List<MissingPerson>> _dataFuture;
   String? notificationId;
@@ -61,7 +61,7 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
           children: [
             OutlinedButton(
               onPressed: () {
-                navigatorKey.currentState?.pushNamed('/verification_page');
+                navigatorKey.currentState?.pushNamed('/u/verification/pending');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
@@ -70,11 +70,11 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View Verification Page", style: TextStyle(color: Colors.black)),
+              child: const Text("View Verification Pending Page", style: TextStyle(color: Colors.black)),
             ),
             OutlinedButton(
               onPressed: () {
-                navigatorKey.currentState?.pushNamed('/phone_number_page');
+                navigatorKey.currentState?.pushNamed('/u/verification/phone');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
@@ -83,11 +83,11 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View Phone Number Page", style: TextStyle(color: Colors.black)),
+              child: const Text("View Phone Verification Page", style: TextStyle(color: Colors.black)),
             ),
             OutlinedButton(
               onPressed: () {
-                navigatorKey.currentState?.pushNamed('/new_home_page');
+                navigatorKey.currentState?.pushNamed('/u/landing');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
@@ -96,11 +96,11 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View New Home Page", style: TextStyle(color: Colors.black)),
+              child: const Text("View Landing Page", style: TextStyle(color: Colors.black)),
             ),
             OutlinedButton(
               onPressed: () {
-                navigatorKey.currentState?.pushNamed('/list_page');
+                navigatorKey.currentState?.pushNamed('/u/home');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
@@ -109,11 +109,11 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View List Page", style: TextStyle(color: Colors.black)),
+              child: const Text("View Home Page", style: TextStyle(color: Colors.black)),
             ),
             OutlinedButton(
               onPressed: () {
-                navigatorKey.currentState?.pushNamed('/staff/home_page');
+                navigatorKey.currentState?.pushNamed('/s/home');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),

@@ -45,7 +45,7 @@ class VerificationPage extends StatelessWidget {
             // Verify button
             ElevatedButton(
               onPressed: () {
-                navigatorKey.currentState?.pushNamed("/list_page"); // Freely allow access to the next page without the verification for now
+                navigatorKey.currentState?.pushNamed("/u/home"); // Freely allow access to the next page without the verification for now
               }, // TODO: add logic to verify verification code
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50), // Min width is available horizontal space and min height is 50 px
@@ -89,7 +89,7 @@ class VerificationPage extends StatelessWidget {
             OutlinedButton(
               onPressed: () {
                 // Route the button to the Phone Number Page
-                navigatorKey.currentState?.pushNamed('/phone_number_page');
+                navigatorKey.currentState?.pushNamed('/u/verification/phone');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 50),

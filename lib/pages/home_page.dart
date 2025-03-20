@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'person_details_page.dart'; 
 import 'package:app/main.dart';
 
-class ListPage extends StatelessWidget {
-  const ListPage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +184,7 @@ class ListPage extends StatelessWidget {
           ),
           onPressed: () {
             // Temporarily route the button to the old home page for debugging purposes
-            navigatorKey.currentState?.pushNamed("/legacy_home_page");
+            navigatorKey.currentState?.pushNamed("/d/debug");
           },
 
           child: Text(
