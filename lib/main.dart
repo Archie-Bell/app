@@ -1,4 +1,5 @@
 import 'package:app/api/firebase_api.dart';
+import 'package:app/api/missing_persons_list_api.dart';
 import 'package:app/api/mongo_db.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/pages/staff_home_page.dart';
@@ -54,7 +55,7 @@ class ArchieBellApp extends StatelessWidget {
         '/verification_page': (context) => const VerificationPage(),
         '/phone_number_page': (context) => const PhoneNumberPage(),
         '/list_page': (context) => const ListPage(), 
-        '/person_details': (context) => const PersonDetailsPage(person: {},), 
+        '/person_details': (context) => PersonDetailsPage(person: ModalRoute.of(context)!.settings.arguments as MissingPerson), 
         '/staff/home_page': (context) => const StaffHomepage(),
       },
     );

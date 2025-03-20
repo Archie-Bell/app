@@ -1,3 +1,4 @@
+import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter/material.dart';
 import 'person_details_page.dart'; 
 import 'package:app/main.dart';
@@ -8,10 +9,7 @@ class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Example list of missing persons (this will be replaced with database data later)
-    List<Map<String, String>> missingPersons = [
-      {'name': 'Person 1', 'age': '70', 'lastLocation': 'Moose Jaw, SK'},
-      {'name': 'Person 2', 'age': '50', 'lastLocation': 'Regina, SK'},
-    ];
+    Future<List<MissingPerson>> missingPersons = MissingPersonsListApi.getData();
 
     return Scaffold(
       backgroundColor: Colors.grey[200], // Light background
@@ -83,52 +81,67 @@ class ListPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
 
-                    // Scrollable List of Missing Persons
+                    // FutureBuilder to handle the asynchronous data fetching
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: ListView.builder(
-                          itemCount: missingPersons.length,
-                          itemBuilder: (context, index) {
-                            var person = missingPersons[index];
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                                side: const BorderSide(color: Colors.black, width: 1),
-                              ),
-                              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                              child: ListTile(
-                                leading: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.grey[300],
-                                  ),
-                                ),
-                                title: Text(
-                                  "${person['name']}, ${person['age']}",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: Text("Last location: ${person['lastLocation']}",
-                                    style: const TextStyle(fontSize: 14)),
-                                trailing: const Icon(Icons.arrow_forward),
-                                onTap: () {
-                                  // Ensure usage of showModalBottomSheet instead of Navigator
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    isScrollControlled: true,
-                                    context: context, 
-                                    builder: (context) => PersonDetailsPage(person: person));
+                        child: FutureBuilder<List<MissingPerson>>(
+                          future: missingPersons,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(child: Text('Error: ${snapshot.error}'));
+                            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                              return Center(child: Text('No missing persons available.'));
+                            } else {
+                              // Use the data when it's available
+                              List<MissingPerson> persons = snapshot.data!;
+                              return ListView.builder(
+                                itemCount: persons.length,
+                                itemBuilder: (context, index) {
+                                  var person = persons[index]; // Directly access the MissingPerson object
+                                  return Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                      side: const BorderSide(color: Colors.black, width: 1),
+                                    ),
+                                    margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                    child: ListTile(
+                                      leading: Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.grey[300],
+                                        ),
+                                      ),
+                                      title: Text(
+                                        "${person.name}, ${person.age}", // Access properties directly
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      subtitle: Text("Last location: ${person.lastLocationSeen}", // Access properties directly
+                                          style: const TextStyle(fontSize: 14)),
+                                      trailing: const Icon(Icons.arrow_forward),
+                                      onTap: () {
+                                        // Ensure usage of showModalBottomSheet instead of Navigator
+                                        showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          context: context, 
+                                          builder: (context) => PersonDetailsPage(person: person));
+                                      },
+                                    ),
+                                  );
                                 },
-                              ),
-                            );
+                              );
+                            }
                           },
                         ),
                       ),
