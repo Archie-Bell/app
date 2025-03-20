@@ -7,8 +7,7 @@ class PersonDetailsPage extends StatelessWidget {
   const PersonDetailsPage({super.key, required this.person});
 
   // Widget to handle taps outside the DraggableScrollableSheet range
-  Widget makeDismissible(
-          {required BuildContext context, required Widget child}) =>
+  Widget makeDismissible({required BuildContext context, required Widget child}) =>
       GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => Navigator.of(context).pop(), // Kills the widget instance
@@ -32,32 +31,26 @@ class PersonDetailsPage extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
               ),
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.only(
+                top: 250, bottom: 15, left: 15, right: 15,
+              ),
               child: ListView(
                 controller: controller,
                 children: [
-                  // Main content
-                  const SizedBox(height: 10),
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey,
-                    child: Icon(Icons.person, size: 50, color: Colors.white),
-                  ),
                   const SizedBox(height: 10),
 
                   // Person's Name and Age
                   Text(
                     "${person.name}, ${person.age}",
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
 
                   // Last Known Location
                   RichText(
-                      text: TextSpan(
-                          style: const TextStyle(color: Colors.black),
-                          children: [
+                    text: TextSpan(
+                      style: const TextStyle(color: Colors.black),
+                      children: [
                         TextSpan(
                             text: "Last known location: ",
                             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -66,7 +59,9 @@ class PersonDetailsPage extends StatelessWidget {
                             text: "Last date/time seen: ",
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         TextSpan(text: "${person.lastDateTimeSeen}\n")
-                      ])),
+                      ]
+                    ),
+                  ),
 
                   Text("Additional Information",
                       style: TextStyle(
@@ -79,50 +74,53 @@ class PersonDetailsPage extends StatelessWidget {
                   Padding(padding: EdgeInsets.only(bottom: 20)),
 
                   // Live Activity Section
+                  const Text("Live Updates", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(10),
-                    color: Colors.grey[300],
-                    child: const Text(
-                      "Live Activity",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 1),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                  ),
-                  Container(
+                    height: 260,
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     alignment: Alignment.center,
-                    child: const Text("No Live Activity",
+                    child: const Text("No Live Updates",
                         style: TextStyle(color: Colors.grey)),
                   ),
 
                   const SizedBox(height: 10),
-
-                  // Missing Cases Section
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(10),
-                    color: Colors.grey[300],
-                    child: const Text(
-                      "Missing Cases",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(20),
-                    alignment: Alignment.center,
-                    child: const Text("No Missing Cases",
-                        style: TextStyle(color: Colors.grey)),
-                  ),
-
-                  const SizedBox(height: 20),
                 ],
               ),
             ),
 
+            // Image section: Positioned at the top, above content
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: double.infinity,  // Make the image fill the width
+                    height: 250,             // Set the fixed height to 250
+                    child: Image.network(
+                      person.image,
+                      fit: BoxFit.cover,  // Ensure the image covers the entire area
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          "images/placeholder-img.jpg",
+                          fit: BoxFit.cover,  // Ensures the placeholder also covers the area
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Footer section (prototype info)
             Positioned(
               left: 0,
               right: 0,
@@ -139,7 +137,7 @@ class PersonDetailsPage extends StatelessWidget {
                     decorationStyle: TextDecorationStyle.dotted,
                   ),
                 ),
-              )
+              ),
             ),
 
             // Ensure button placement is consistent regardless of modal height
