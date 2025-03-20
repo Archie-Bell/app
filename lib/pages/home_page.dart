@@ -114,9 +114,14 @@ class HomePage extends StatelessWidget {
                                       leading: Container(
                                         width: 50,
                                         height: 50,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.grey[300],
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            person.image,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) {
+                                              return Image.asset("images/placeholder-img.jpg", fit: BoxFit.cover); // Fallback if image loading fails
+                                            },
+                                          ),
                                         ),
                                       ),
                                       title: Text(
