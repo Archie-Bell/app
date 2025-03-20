@@ -1,9 +1,9 @@
+import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:app/models/missing_person_model.dart';
 import 'package:flutter/material.dart';
 
 class NotificationPage extends StatelessWidget {
-  final DbModel? missingPersonData;
+  final MissingPerson? missingPersonData;
 
   const NotificationPage({super.key, this.missingPersonData});
 

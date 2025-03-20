@@ -2,23 +2,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDB {
-  // static connect() async {
-  //   // Initates a new connection to the database
-  //   var database = await Db.create(MONGO_URL);
-  //   await database.open();
-
-  //   // Display database configuration
-  //   inspect(database);
-
-  //   var status = database.serverStatus();
-  //   print(status);
-
-  //   // Declare collection name
-  //   var collection = database.collection(COLLECTION_NAME);
-
-  //   print(await collection.find().toList());
-  // }
-
   static Db? database;
   static DbCollection? missingPersonsCollection;
 
@@ -44,4 +27,10 @@ class MongoDB {
       return [];
     }
   }
+
+  // static Future<List<Map<String, dynamic>>> getData() async {
+  //   try {
+
+  //   }
+  // }
 }

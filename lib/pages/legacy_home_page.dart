@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:app/api/mongo_db.dart';
-import 'package:app/models/missing_person_model.dart';
+// import 'package:app/api/mongo_db.dart';
 import 'package:app/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/main.dart';
@@ -24,19 +24,20 @@ class LegacyHomePage extends StatefulWidget {
 
 class _LegacyHomePageState extends State<LegacyHomePage> {
   late Timer _timer;
-  late Future<List> _dataFuture;
+  late Future<List<MissingPerson>> _dataFuture;
   String? notificationId;
 
   @override
   void initState() {
     super.initState();
     notificationId = widget.notificationId;
-    _dataFuture = MongoDB.getData();
+    _dataFuture = MissingPersonsListApi.getData();
+    print(MissingPersonsListApi.getData());
 
     // Make duration for 60 instead of 5 for debugging purposes
     _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
       setState(() {
-        _dataFuture = MongoDB.getData();
+        _dataFuture = MissingPersonsListApi.getData();
       });
     });
   }
@@ -130,21 +131,21 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasData) {
-                    // var totalData = snapshot.data.length;
-
-                    // Filter the data if notificationId is provided
-                    List filteredData = snapshot.data;
-                    if (notificationId != null) {
-                      filteredData = snapshot.data.where((data) {
-                        return DbModel.fromJson(data).id == notificationId;
-                      }).toList();
-                    }
+                    // Cast data to List<Map<String, dynamic>> if it's not already in the right format
+                    List<dynamic> dataList = snapshot.data;
+                    
+                    // Check if notificationId is provided and filter the data accordingly
+                    List filteredData = notificationId != null 
+                        ? dataList.where((data) {
+                            return MissingPerson.fromJson(data).id == notificationId;
+                          }).toList()
+                        : dataList;
 
                     return ListView.builder(
                       itemCount: filteredData.length,
                       itemBuilder: (context, index) {
                         var data = filteredData[index];
-                        return displayCard(DbModel.fromJson(data));
+                        return displayCard(data);
                       },
                     );
                   } else if (snapshot.hasError) {
@@ -161,7 +162,7 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
     );
   }
 
-  Widget displayCard(DbModel data) {
+  Widget displayCard(MissingPerson data) {
     return Card(
       child: ListTile(
         onTap: () {
@@ -176,7 +177,7 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
         minTileHeight: 200.0,
         title: Text("${data.name.toString()}, ${data.age.toString()}", style: const TextStyle(fontWeight: FontWeight.bold)),
         trailing: Image.network(
-                    'http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8001/api/${data.image}', // Use "ipconfig" to determine your IPv4 address when testing this application.
+                    'http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${data.image}', // Use "ipconfig" to determine your IPv4 address when testing this application.
                     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) return child;
                       return Center(
@@ -188,7 +189,7 @@ class _LegacyHomePageState extends State<LegacyHomePage> {
                       );
                     },
                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                      return const Text('Failed to load image');
+                      return Image.asset('images/placeholder-img.jpg');
                     },
                   ),
         subtitle: Column(
