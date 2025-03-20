@@ -1,6 +1,5 @@
 import 'package:app/api/firebase_api.dart';
 import 'package:app/api/missing_persons_list_api.dart';
-import 'package:app/api/mongo_db.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/pages/staff_home_page.dart';
 import 'package:app/pages/debug_page.dart';
@@ -25,9 +24,6 @@ Future main() async {
 
   // Initialize Firebase messaging and notifications
   await FirebaseApi().initialiseNotifications();
-
-  // Connect to MongoDB
-  await MongoDB.connect();
 
   runApp(const ArchieBellApp());
 }
