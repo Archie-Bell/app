@@ -1,21 +1,38 @@
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class MissingPersonsListApi {
-  static Future<List<MissingPerson>> getData() async {
-    final uri = Uri.parse("http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/api/missing-persons");
-    final response = await http.get(uri);
+class ApiResult<T> {
+  final T? data;
+  final String? error;
 
-    if (response.statusCode == 200) {
-      List<dynamic> responseData = json.decode(response.body);
-      return responseData.map((item) => MissingPerson.fromJson(item)).toList();
-    }
-    
-    else {
-      throw Exception('Unable to fetch data. Ensure backend server is online.');
+  ApiResult({this.data, this.error});
+}
+
+class MissingPersonsListApi {
+  static Future<ApiResult<List<MissingPerson>>> getData() async {
+    try {
+      final uri = Uri.parse("http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/api/missing-persons");
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = json.decode(response.body);
+        List<MissingPerson> missingPersons = responseData
+            .map((item) => MissingPerson.fromJson(item))
+            .toList();
+        return ApiResult(data: missingPersons); // Return data if successful
+      } else {
+        return ApiResult(error: 'Unable to fetch data, server returned: ${response.statusCode}');
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        return ApiResult(error: 'Backend is offline, unable to fetch data.');
+      } else {
+        return ApiResult(error: 'An error occurred: $e');
+      }
     }
   }
 }

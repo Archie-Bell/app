@@ -1,17 +1,9 @@
 import 'dart:async';
 import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:app/api/mongo_db.dart';
 import 'package:app/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/main.dart';
-
-/*
-
-To ensure efficient migration to the new interface, 
-keeping the old code is necessary until everything is moved over before finally deleting.
-
-*/
 
 class DebugPage extends StatefulWidget {
   final String? notificationId;
@@ -24,7 +16,7 @@ class DebugPage extends StatefulWidget {
 
 class _DebugPageState extends State<DebugPage> {
   late Timer _timer;
-  late Future<List<MissingPerson>> _dataFuture;
+  late Future<ApiResult<List<MissingPerson>>> _dataFuture;
   String? notificationId;
 
   @override
@@ -57,7 +49,7 @@ class _DebugPageState extends State<DebugPage> {
       ),
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Centers the column's content vertically
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton(
               onPressed: () {
@@ -125,31 +117,34 @@ class _DebugPageState extends State<DebugPage> {
               child: const Text("View Staff Home Page", style: TextStyle(color: Colors.black)),
             ),
             Expanded(  // Ensures the FutureBuilder takes the remaining space
-              child: FutureBuilder(
+              child: FutureBuilder<ApiResult<List<MissingPerson>>>(
                 future: _dataFuture,
-                builder: (context, AsyncSnapshot snapshot) {
+                builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error: ${snapshot.error}"));
                   } else if (snapshot.hasData) {
-                    // Cast data to List<Map<String, dynamic>> if it's not already in the right format
-                    List<dynamic> dataList = snapshot.data;
-                    
-                    // Check if notificationId is provided and filter the data accordingly
-                    List filteredData = notificationId != null 
+                    if (snapshot.data!.error != null) {
+                      return Center(child: Text("Error: ${snapshot.data!.error}"));
+                    } else {
+                      List<MissingPerson> dataList = snapshot.data!.data!;
+
+                      // Filter data if notificationId is provided
+                      List<MissingPerson> filteredData = notificationId != null 
                         ? dataList.where((data) {
-                            return MissingPerson.fromJson(data).id == notificationId;
+                            return data.id == notificationId;
                           }).toList()
                         : dataList;
 
-                    return ListView.builder(
-                      itemCount: filteredData.length,
-                      itemBuilder: (context, index) {
-                        var data = filteredData[index];
-                        return displayCard(data);
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text("Error: ${snapshot.error}"));
+                      return ListView.builder(
+                        itemCount: filteredData.length,
+                        itemBuilder: (context, index) {
+                          var data = filteredData[index];
+                          return displayCard(data);
+                        },
+                      );
+                    }
                   } else {
                     return const Center(child: Text("No data available"));
                   }
@@ -158,7 +153,7 @@ class _DebugPageState extends State<DebugPage> {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 

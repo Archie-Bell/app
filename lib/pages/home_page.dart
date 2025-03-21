@@ -8,8 +8,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Example list of missing persons (this will be replaced with database data later)
-    Future<List<MissingPerson>> missingPersons = MissingPersonsListApi.getData();
+    // Fetch data using the updated API that now returns an ApiResult
+    Future<ApiResult<List<MissingPerson>>> missingPersons = MissingPersonsListApi.getData();
 
     return Scaffold(
       backgroundColor: Colors.grey[200], // Light background
@@ -88,64 +88,73 @@ class HomePage extends StatelessWidget {
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: FutureBuilder<List<MissingPerson>>(
+                        child: FutureBuilder<ApiResult<List<MissingPerson>>>(
                           future: missingPersons,
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());
                             } else if (snapshot.hasError) {
                               return Center(child: Text('Error: ${snapshot.error}'));
-                            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                              return Center(child: Text('No missing persons available.'));
-                            } else {
-                              // Use the data when it's available
-                              List<MissingPerson> persons = snapshot.data!;
-                              return ListView.builder(
-                                itemCount: persons.length,
-                                itemBuilder: (context, index) {
-                                  var person = persons[index]; // Directly access the MissingPerson object
-                                  return Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                      side: const BorderSide(color: Colors.black, width: 1),
-                                    ),
-                                    margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                                    child: ListTile(
-                                      leading: Container(
-                                        width: 50,
-                                        height: 50,
-                                        child: ClipOval(
-                                          child: Image.network(
-                                            person.image,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) {
-                                              return Image.asset("images/placeholder-img.jpg", fit: BoxFit.cover); // Fallback if image loading fails
-                                            },
+                            } else if (snapshot.hasData) {
+                              if (snapshot.data!.error != null) {
+                                // Show error message if API result contains an error
+                                return Center(child: Text('Error: ${snapshot.data!.error}'));
+                              } else if (snapshot.data!.data!.isEmpty) {
+                                // Handle case where there is no data
+                                return Center(child: Text('No missing persons available.'));
+                              } else {
+                                // Display the data when available
+                                List<MissingPerson> persons = snapshot.data!.data!;
+                                return ListView.builder(
+                                  itemCount: persons.length,
+                                  itemBuilder: (context, index) {
+                                    var person = persons[index]; // Access MissingPerson object directly
+                                    return Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                        side: const BorderSide(color: Colors.black, width: 1),
+                                      ),
+                                      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                      child: ListTile(
+                                        leading: Container(
+                                          width: 50,
+                                          height: 50,
+                                          child: ClipOval(
+                                            child: Image.network(
+                                              person.image,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) {
+                                                return Image.asset("images/placeholder-img.jpg", fit: BoxFit.cover); // Fallback if image loading fails
+                                              },
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      title: Text(
-                                        "${person.name}, ${person.age}", // Access properties directly
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                        title: Text(
+                                          "${person.name}, ${person.age}", // Access properties directly
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
+                                        subtitle: Text("Last location: ${person.lastLocationSeen}", // Access properties directly
+                                            style: const TextStyle(fontSize: 14)),
+                                        trailing: const Icon(Icons.arrow_forward),
+                                        onTap: () {
+                                          // Ensure usage of showModalBottomSheet instead of Navigator
+                                          showModalBottomSheet(
+                                            backgroundColor: Colors.transparent,
+                                            isScrollControlled: true,
+                                            context: context, 
+                                            builder: (context) => PersonDetailsPage(person: person));
+                                        },
                                       ),
-                                      subtitle: Text("Last location: ${person.lastLocationSeen}", // Access properties directly
-                                          style: const TextStyle(fontSize: 14)),
-                                      trailing: const Icon(Icons.arrow_forward),
-                                      onTap: () {
-                                        // Ensure usage of showModalBottomSheet instead of Navigator
-                                        showModalBottomSheet(
-                                          backgroundColor: Colors.transparent,
-                                          isScrollControlled: true,
-                                          context: context, 
-                                          builder: (context) => PersonDetailsPage(person: person));
-                                      },
-                                    ),
-                                  );
-                                },
-                              );
+                                    );
+                                  },
+                                );
+                              }
+                            } else {
+                              // Default case if snapshot doesn't have data or error
+                              return Center(child: Text('Unexpected error occurred.'));
                             }
                           },
                         ),
