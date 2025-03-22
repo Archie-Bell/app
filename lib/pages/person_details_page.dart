@@ -168,9 +168,9 @@ class PersonDetailsPage extends StatelessWidget {
 
             // Ensure button placement is consistent regardless of modal height
             Positioned(
-              left: 0,
-              right: 0,
-              bottom: 20,
+              left: 50,
+              right: 50,
+              bottom: 25,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
@@ -178,7 +178,7 @@ class PersonDetailsPage extends StatelessWidget {
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(35),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
