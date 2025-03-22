@@ -1,5 +1,6 @@
 import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'person_details_page.dart'; 
 import 'package:app/main.dart';
 
@@ -116,12 +117,12 @@ class HomePage extends StatelessWidget {
                                       ),
                                       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                                       child: ListTile(
-                                        leading: Container(
+                                        leading: SizedBox(
                                           width: 50,
                                           height: 50,
                                           child: ClipOval(
                                             child: Image.network(
-                                              person.image,
+                                              "http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${person.image}",
                                               fit: BoxFit.cover,
                                               errorBuilder: (context, error, stackTrace) {
                                                 return Image.asset("images/placeholder-img.jpg", fit: BoxFit.cover); // Fallback if image loading fails

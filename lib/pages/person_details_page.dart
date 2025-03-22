@@ -1,5 +1,6 @@
 import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class PersonDetailsPage extends StatelessWidget {
   final MissingPerson person;
@@ -130,7 +131,7 @@ class PersonDetailsPage extends StatelessWidget {
                       },
                       blendMode: BlendMode.dstIn, // This blends the image with the gradient effect
                       child: Image.network(
-                        person.image,
+                        "http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${person.image}",
                         fit: BoxFit.cover, // Ensure the image covers the entire area
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
