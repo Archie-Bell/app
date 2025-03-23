@@ -1,10 +1,10 @@
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// Logic to define if the API returns requested data or an error
 class ApiResult<T> {
   final T? data;
   final String? error;
@@ -12,6 +12,7 @@ class ApiResult<T> {
   ApiResult({this.data, this.error});
 }
 
+// Define JSON request, and handle GET requests from backend
 class MissingPersonsListApi {
   static Future<ApiResult<List<MissingPerson>>> getData() async {
     try {

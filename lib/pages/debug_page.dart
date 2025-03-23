@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:app/pages/notification_page.dart';
+import 'package:app/pages/debug_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/main.dart';
 
@@ -165,7 +165,7 @@ class _DebugPageState extends State<DebugPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NotificationPage(missingPersonData: data),
+              builder: (context) => DebugDetailsPage(missingPersonData: data),
             ),
           );
         },

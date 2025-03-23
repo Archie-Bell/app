@@ -5,7 +5,7 @@ import 'package:app/pages/staff_home_page.dart';
 import 'package:app/pages/debug_page.dart';
 import 'package:app/pages/landing_page.dart';
 import 'package:app/pages/home_page.dart';
-import 'package:app/pages/notification_page.dart';
+import 'package:app/pages/debug_details_page.dart';
 import 'package:app/pages/phone_number_page.dart';
 import 'package:app/pages/verification_page.dart';
 import 'package:app/pages/person_details_page.dart';
@@ -47,7 +47,7 @@ class ArchieBellApp extends StatelessWidget {
       routes: {
         '/d/debug': (context) => const DebugPage(),
         '/u/landing': (context) => const LandingPage(),
-        '/api/notification': (context) => const NotificationPage(),
+        '/d/api/notification': (context) => const DebugDetailsPage(),
         '/u/verification/pending': (context) => const VerificationPage(),
         '/u/verification/phone': (context) => const PhoneNumberPage(),
         '/u/home': (context) => const HomePage(), 
