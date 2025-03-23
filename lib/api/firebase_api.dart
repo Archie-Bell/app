@@ -39,7 +39,7 @@ class FirebaseApi {
     Future.delayed(const Duration(milliseconds: 500), () {
       if (navigatorKey.currentState != null) {
         // Navigate to the HomePage with the 'id' argument
-        navigatorKey.currentState?.pushNamed('/legacy_home_page');
+        navigatorKey.currentState?.pushNamed('/u/home');
       }
     });
   }

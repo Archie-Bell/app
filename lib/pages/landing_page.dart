@@ -1,14 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LandingPage extends StatefulWidget {
+  const LandingPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<LandingPage> createState() => _LandingPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LandingPageState extends State<LandingPage> {
   String? selectedLanguage;
 
   @override
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onPressed: () {
                         // Navigate to Staff Login Page
-                        Navigator.pushNamed(context, "/staff/home_page");
+                        Navigator.pushNamed(context, "/s/home");
                       },
                       child: const Text(
                         "Login as Staff",
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/phone_number_page'); // Regular users will be prompted to the phone number verification screen
+                        Navigator.pushNamed(context, '/u/verification/phone'); // Regular users will be prompted to the phone number verification screen
                       },
                       child: const Text(
                         "Continue",

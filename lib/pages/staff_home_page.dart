@@ -34,7 +34,7 @@ class StaffHomepage extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
-                      Navigator.pushNamed(context, "/legacy_home_page");
+                      Navigator.pushNamed(context, "/d/debug");
                     }, // TODO: Route temporarily to debug
                   ),
                 ],

@@ -47,7 +47,7 @@ class PhoneNumberPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Ensure user is brought to the verification page upon button press
-                navigatorKey.currentState?.pushNamed('/verification_page');
+                navigatorKey.currentState?.pushNamed('/u/verification/pending');
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50), // Min width is available horizontal space and min height is 50 px
@@ -91,7 +91,7 @@ class PhoneNumberPage extends StatelessWidget {
             OutlinedButton(
               onPressed: () {
                 // Temporarily route the button to the Home Page
-                navigatorKey.currentState?.pushNamed('/new_home_page');
+                navigatorKey.currentState?.pushNamed('/u/landing');
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 50),

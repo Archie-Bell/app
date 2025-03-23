@@ -1,11 +1,11 @@
 import 'package:app/api/firebase_api.dart';
-import 'package:app/api/mongo_db.dart';
+import 'package:app/api/missing_persons_list_api.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/pages/staff_home_page.dart';
-import 'package:app/pages/legacy_home_page.dart';
-import 'package:app/pages/new_home_page.dart';
-import 'package:app/pages/list_page.dart';
-import 'package:app/pages/notification_page.dart';
+import 'package:app/pages/debug_page.dart';
+import 'package:app/pages/landing_page.dart';
+import 'package:app/pages/home_page.dart';
+import 'package:app/pages/debug_details_page.dart';
 import 'package:app/pages/phone_number_page.dart';
 import 'package:app/pages/verification_page.dart';
 import 'package:app/pages/person_details_page.dart';
@@ -25,9 +25,6 @@ Future main() async {
   // Initialize Firebase messaging and notifications
   await FirebaseApi().initialiseNotifications();
 
-  // Connect to MongoDB
-  await MongoDB.connect();
-
   runApp(const ArchieBellApp());
 }
 
@@ -44,18 +41,18 @@ class ArchieBellApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const HomePage(),
+      home: const LandingPage(),
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
-        '/legacy_home_page': (context) => const LegacyHomePage(),
-        '/new_home_page': (context) => const HomePage(),
-        '/api/notification': (context) => const NotificationPage(),
-        '/verification_page': (context) => const VerificationPage(),
-        '/phone_number_page': (context) => const PhoneNumberPage(),
-        '/list_page': (context) => const ListPage(), 
-        '/person_details': (context) => const PersonDetailsPage(person: {},), 
-        '/staff/home_page': (context) => const StaffHomepage(),
+        '/d/debug': (context) => const DebugPage(),
+        '/u/landing': (context) => const LandingPage(),
+        '/d/api/notification': (context) => const DebugDetailsPage(),
+        '/u/verification/pending': (context) => const VerificationPage(),
+        '/u/verification/phone': (context) => const PhoneNumberPage(),
+        '/u/home': (context) => const HomePage(), 
+        '/u/person/details': (context) => PersonDetailsPage(person: ModalRoute.of(context)!.settings.arguments as MissingPerson), 
+        '/s/home': (context) => const StaffHomepage(),
       },
     );
   }

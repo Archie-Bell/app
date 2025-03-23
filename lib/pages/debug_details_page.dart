@@ -1,11 +1,11 @@
+import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:app/models/missing_person_model.dart';
 import 'package:flutter/material.dart';
 
-class NotificationPage extends StatelessWidget {
-  final DbModel? missingPersonData;
+class DebugDetailsPage extends StatelessWidget {
+  final MissingPerson? missingPersonData;
 
-  const NotificationPage({super.key, this.missingPersonData});
+  const DebugDetailsPage({super.key, this.missingPersonData});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class NotificationPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.network(
-              'http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8001/api/${missingPersonData!.image}',
+              'http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${missingPersonData!.image}',
               loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                 if (loadingProgress == null) return child;
                 return Center(
