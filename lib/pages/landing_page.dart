@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:app/theme.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -13,8 +14,19 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen width using MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      body: SafeArea(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: Styles.appGradient,
+          ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.1,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, // Proper spacing
           children: [
@@ -25,73 +37,83 @@ class _LandingPageState extends State<LandingPage> {
                   mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
                   children: [
                     // Title: ARCHIE BELL (Larger & Bolder)
-                    const Column(
+                    SizedBox(
+                      width: screenWidth * 0.71,
+                      child: Column(
                       mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
                       crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the left
                       children: [
                         Text(
                           "ARCHIE",
-                          style: TextStyle(
-                            fontSize: 56, // Increased font size
-                            fontWeight: FontWeight.w900, // Extra bold
-                          ),
+                          style: Styles.appName
                         ),
                         SizedBox(height: 0), // Reduced space between ARCHIE and BELL
                         Text(
                           "BELL",
-                          style: TextStyle(
-                            fontSize: 56, // Increased font size
-                            fontWeight: FontWeight.w900, // Extra bold
-                          ),
+                          style: Styles.appName
                         ),
                       ],
                     ),
+                    ),
+                    
 
-                    const SizedBox(height: 20), // Spacing
+                    const SizedBox(height: 5), // Spacing
 
                     // Language Selection Text (Now Bold & Black)
-                    const Text(
-                      "Select your language.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold, // Bold
-                        color: Colors.black, // Black color
+                    SizedBox(
+                      width: screenWidth * 0.71,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Select your language.",
+                          style: Styles.whiteTextStyle.copyWith(
+                            fontSize: 14,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
                       ),
                     ),
 
+                    
                     const SizedBox(height: 10),
 
                     // Dropdown Button for Language Selection (Now Styled)
                     SizedBox(
-                      width: 200, // Matches title width
+                      width: screenWidth * 0.71, // Matches title width
                       child: DropdownButtonFormField<String>(
                         value: selectedLanguage,
                         decoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.black, // Strong black outline
+                              color: Colors.white, // Strong black outline
                               width: 2, // Thicker border
                             ),
-                            borderRadius: BorderRadius.zero, // Sharp corners
+                            borderRadius: BorderRadius.all(Radius.circular(15)), // Sharp corners
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.black, // Strong black outline
+                              color: Colors.white, // Strong black outline
                               width: 2, // Thicker border
                             ),
-                            borderRadius: BorderRadius.zero, // Sharp corners
+                            borderRadius: BorderRadius.all(Radius.circular(15)), // Sharp corners
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 10), // Adjust padding
+                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 22), // Adjust padding
                         ),
-                        hint: const Text(
+                        hint: Text(
                           "Select an option",
-                          style: TextStyle(
+                          textAlign: TextAlign.center,
+                          style: Styles.whiteTextStyle.copyWith(
                             fontWeight: FontWeight.bold, // Bold text
-                            color: Colors.black, // Black color
                           ),
                         ),
-                        icon: const Icon(Icons.arrow_drop_down, color: Colors.black), // Black dropdown icon
+                        icon: Container( // Modify the drop down icon
+                          padding: const EdgeInsets.all(0), // Remove padding around the icon
+                          alignment: Alignment.center, // Vertically center icon
+                          child: const Icon(
+                            Icons.arrow_drop_down_circle_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
                         items: ["English", "Spanish", "French"]
                             .map((lang) => DropdownMenuItem(
                                   value: lang,
@@ -123,53 +145,43 @@ class _LandingPageState extends State<LandingPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    width: 200, // Matches title width
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.black, width: 2), // Stronger black outline
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Sharp corners
+                    width: screenWidth * 0.50,
+                      child: OutlinedButton(
+                        style: Styles.button,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/s/home');
+                        },
+                        child: Text(
+                          "Login as Staff",
+                          style: Styles.whiteTextStyle.copyWith(
+                            fontWeight: FontWeight.bold, // Bold text
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-                      onPressed: () {
-                        // Navigate to Staff Login Page
-                        Navigator.pushNamed(context, "/s/home");
-                      },
-                      child: const Text(
-                        "Login as Staff",
-                        style: TextStyle(
-                          color: Colors.black, // Black text
-                          fontWeight: FontWeight.bold, // Bold text
-                        ),
-                      ),
-                    ),
+                    // ),
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 1),
 
                   SizedBox(
-                    width: 200, // Matches title width
+                    width: screenWidth * 0.50, // Makes button width smaller to match wireframe
                     child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.black, width: 2), // Stronger black outline
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Sharp corners
-                        ),
-                      ),
+                      style: Styles.button,
                       onPressed: () {
                         Navigator.pushNamed(context, '/u/verification/phone'); // Regular users will be prompted to the phone number verification screen
                       },
-                      child: const Text(
+                      child: Text(
                         "Continue",
-                        style: TextStyle(
-                          color: Colors.black, // Black text
-                          fontWeight: FontWeight.bold, // Bold text
+                        style: Styles.whiteTextStyle.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16
                         ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 20), // Extra space for better layout
+                  const SizedBox(height: 10), // Extra space for better layout
 
                   // Terms of Use and Privacy Policy
                   Column(
@@ -181,12 +193,13 @@ class _LandingPageState extends State<LandingPage> {
                             color: Colors.black
                           ),
                           children: [
-                            const TextSpan(
-                              text: "By using our services, you also agree to our\n"
+                            TextSpan(
+                              text: "By using our services, you also agree to our\n",
+                              style: Styles.whiteTextStyle,
                               ),
                             TextSpan(
                               text: "Terms of Use",
-                              style: const TextStyle(
+                              style: Styles.whiteTextStyle.copyWith(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
@@ -196,15 +209,15 @@ class _LandingPageState extends State<LandingPage> {
                                   // Open Terms of Use
                                 },
                             ),
-                            const TextSpan(
+                            TextSpan(
                               text: " and ",
-                              style: TextStyle(
+                              style: Styles.whiteTextStyle.copyWith(
                                 fontSize: 12,
                               ),
                             ),
                             TextSpan(
                               text: "Privacy Policy",
-                              style: const TextStyle(
+                              style: Styles.whiteTextStyle.copyWith(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
@@ -214,8 +227,9 @@ class _LandingPageState extends State<LandingPage> {
                                   // Open Privacy Policy
                                 },
                             ),
-                            const TextSpan(
+                            TextSpan(
                               text: '.',
+                              style: Styles.whiteTextStyle
                             ),
                           ],
                         ),
@@ -228,6 +242,6 @@ class _LandingPageState extends State<LandingPage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

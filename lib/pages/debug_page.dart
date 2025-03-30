@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:app/pages/debug_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/main.dart';
+import 'package:app/theme.dart';
 
 class DebugPage extends StatefulWidget {
   final String? notificationId;
@@ -47,7 +48,11 @@ class _DebugPageState extends State<DebugPage> {
         centerTitle: true,
         title: const Text("Archie Bell", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      body: SafeArea(
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: Styles.appGradient,
+          ),
+      child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -57,12 +62,14 @@ class _DebugPageState extends State<DebugPage> {
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
-                side: const BorderSide(color: Colors.black),
+                side: const BorderSide(color: Colors.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View Verification Pending Page", style: TextStyle(color: Colors.black)),
+              child: Text("View Verification Pending Page", 
+              style: Styles.whiteTextStyle,
+              ),
             ),
             OutlinedButton(
               onPressed: () {
@@ -70,12 +77,12 @@ class _DebugPageState extends State<DebugPage> {
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
-                side: const BorderSide(color: Colors.black),
+                side: const BorderSide(color: Colors.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View Phone Verification Page", style: TextStyle(color: Colors.black)),
+              child: Text("View Phone Verification Page", style: Styles.whiteTextStyle,),
             ),
             OutlinedButton(
               onPressed: () {
@@ -83,12 +90,12 @@ class _DebugPageState extends State<DebugPage> {
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
-                side: const BorderSide(color: Colors.black),
+                side: const BorderSide(color: Colors.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View Landing Page", style: TextStyle(color: Colors.black)),
+              child: Text("View Landing Page", style: Styles.whiteTextStyle,),
             ),
             OutlinedButton(
               onPressed: () {
@@ -96,12 +103,12 @@ class _DebugPageState extends State<DebugPage> {
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
-                side: const BorderSide(color: Colors.black),
+                side: const BorderSide(color: Colors.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View Home Page", style: TextStyle(color: Colors.black)),
+              child: Text("View Home Page", style: Styles.whiteTextStyle,),
             ),
             OutlinedButton(
               onPressed: () {
@@ -109,12 +116,12 @@ class _DebugPageState extends State<DebugPage> {
               },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(250, 40),
-                side: const BorderSide(color: Colors.black),
+                side: const BorderSide(color: Colors.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
-              child: const Text("View Staff Home Page", style: TextStyle(color: Colors.black)),
+              child: Text("View Staff Home Page", style: Styles.whiteTextStyle,),
             ),
             Expanded(  // Ensures the FutureBuilder takes the remaining space
               child: FutureBuilder<ApiResult<List<MissingPerson>>>(
@@ -154,7 +161,7 @@ class _DebugPageState extends State<DebugPage> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   Widget displayCard(MissingPerson data) {
