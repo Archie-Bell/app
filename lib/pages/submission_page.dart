@@ -1,7 +1,6 @@
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'dart:io';
 
 class SubmissionPage extends StatefulWidget {
@@ -34,18 +33,34 @@ class _SubmissionPageState extends State<SubmissionPage> {
       lastDate: DateTime(2101),
     );
 
-    // Show Time Picker
-    if (selectedDate != null) {
+    // If the widget is still mounted (still part of the widget tree), show the Time Picker
+    if (selectedDate != null && mounted) {
+      // Show Time Picker, using the selected date's time
       TimeOfDay? selectedTime = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.fromDateTime(selectedDate),
+        initialTime: TimeOfDay.fromDateTime(selectedDate), // Use selectedDate for initial time
       );
 
-      if (selectedTime != null) {
-        setState(() {
-          _selectedDate =
-              '${DateFormat('yyyy-MM-dd').format(selectedDate)} ${selectedTime.format(context)}';
-        });
+      // If the widget is still mounted, proceed with the update
+      if (selectedTime != null && mounted) {
+        // Combine selected date and time
+        DateTime finalDateTime = DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+
+        // Format the final DateTime for the backend (ISO 8601 format with milliseconds)
+        String backendDateTime = finalDateTime.toIso8601String();
+
+        // Update the state only if the widget is still mounted
+        if (mounted) {
+          setState(() {
+            _selectedDate = backendDateTime; // This will hold the formatted date for backend use
+          });
+        }
       }
     }
   }
@@ -65,7 +80,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
         decoration: BoxDecoration(
           gradient: Styles.appGradient,
         ),
-        child: Center( 
+        child: Center(
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -107,8 +122,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
 
                   const SizedBox(height: 16),
 
-                  // TODO: specific time modification required
-                  // Prompt user to pick a date
+                  // Prompt user to pick a date and time
                   ElevatedButton(
                     onPressed: _selectDateTime,
                     child: Text(_selectedDate),
