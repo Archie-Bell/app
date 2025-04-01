@@ -1,7 +1,6 @@
 import 'package:app/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:app/theme.dart';
 
 class PhoneNumberPage extends StatelessWidget {
