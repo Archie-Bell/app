@@ -1,4 +1,5 @@
 import 'package:app/api/missing_persons_list_api.dart';
+import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -183,7 +184,7 @@ class PersonDetailsPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   onPressed: () {
-                    // Action for volunteering (to be implemented)
+                    navigatorKey.currentState?.pushNamed('/u/person/details/submission');
                   },
                   child: const Text("Found this person?"),
                 ),
