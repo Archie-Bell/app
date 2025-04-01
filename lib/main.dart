@@ -41,7 +41,27 @@ class ArchieBellApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LandingPage(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.transparent
+      ),
+      home: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              colors: [
+                Color(0xFF3D4DEE),
+                Color(0xFF293486),
+                Color(0xFFA0A5C0),
+                Color(0xFFD9D9D9),
+              ],
+              center: Alignment.topLeft,
+              radius: 2.25,
+              stops: [0.1, 0.55, 0.9, 1.0]
+            )
+          ),
+          child: const LandingPage(),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
