@@ -81,12 +81,12 @@ class HomePage extends StatelessWidget {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
                                   return Center(child: CircularProgressIndicator());
                                 } else if (snapshot.hasError) {
-                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                  return Center(child: Text('Error: ${snapshot.error}', style: const TextStyle(color: Colors.white)));
                                 } else if (snapshot.hasData) {
                                   if (snapshot.data!.error != null) {
-                                    return Center(child: Text('Error: ${snapshot.data!.error}'));
+                                    return Center(child: Text('Error: ${snapshot.data!.error}', style: const TextStyle(color: Colors.white)));
                                   } else if (snapshot.data!.data!.isEmpty) {
-                                    return Center(child: Text('No missing persons available.'));
+                                    return Center(child: Text('No missing persons available.', style: const TextStyle(color: Colors.white),));
                                   } else {
                                     List<MissingPerson> persons = snapshot.data!.data!;
                                     return ListView.builder(
@@ -143,7 +143,7 @@ class HomePage extends StatelessWidget {
                                     );
                                   }
                                 } else {
-                                  return Center(child: Text('Unexpected error occurred.'));
+                                  return Center(child: Text('Unexpected error occurred.', style: const TextStyle(color: Colors.white)));
                                 }
                               },
                             ),
