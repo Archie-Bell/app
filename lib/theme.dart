@@ -19,7 +19,7 @@ class Styles {
   // ========== Text Styles ==========
   // App name text style
   static TextStyle appName = const TextStyle(
-    fontSize: 75,
+    fontSize: 58,
     fontWeight: FontWeight.w900,
     fontFamily: 'Strong',
     color: Colors.white,
@@ -83,10 +83,10 @@ class Styles {
 
   // ========== Button Styles ==========
   static ButtonStyle button = OutlinedButton.styleFrom(
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.white.withAlpha(70),
     side: const BorderSide(color: Colors.white, width: 2),
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(15)),
+      borderRadius: BorderRadius.all(Radius.circular(100)),
     ),
     foregroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
@@ -101,7 +101,7 @@ class Styles {
   static const double liveActivityHeight = 300.0;
 
   // Live Activity icon color
-  static const Color liveActivityIconColor = Colors.white;
+  static Color liveActivityIconColor = Colors.white.withAlpha(50);
 
   // ========== Button Container Styles ==========
   // Container holding buttons

@@ -43,7 +43,22 @@ class ArchieBellApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.transparent
+        scaffoldBackgroundColor: Colors.transparent,
+        colorScheme: ColorScheme.light(
+          primary: Colors.indigo,
+          onPrimary: Colors.indigo.shade50,
+          surface: Colors.indigo.shade50,
+          onSurface: Colors.indigo,
+          secondary: Colors.indigo,
+          onSecondary: Colors.indigo.shade50,
+        ), 
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(fontWeight: FontWeight.bold),
+          bodySmall: TextStyle(fontWeight: FontWeight.bold),
+          headlineLarge: TextStyle(fontWeight: FontWeight.bold),
+          headlineMedium: TextStyle(fontWeight: FontWeight.bold),
+          headlineSmall: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
+        ),
       ),
       home: Scaffold(
         body: Container(

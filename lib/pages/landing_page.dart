@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:app/theme.dart';
 
@@ -38,7 +37,7 @@ class _LandingPageState extends State<LandingPage> {
                   children: [
                     // Title: ARCHIE BELL (Larger & Bolder)
                     SizedBox(
-                      width: screenWidth * 0.71,
+                      width: screenWidth * 0.51,
                       child: Column(
                       mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
                       crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the left
@@ -55,84 +54,6 @@ class _LandingPageState extends State<LandingPage> {
                       ],
                     ),
                     ),
-                    
-
-                    const SizedBox(height: 5), // Spacing
-
-                    // Language Selection Text (Now Bold & Black)
-                    SizedBox(
-                      width: screenWidth * 0.71,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Select your language.",
-                          style: Styles.whiteTextStyle.copyWith(
-                            fontSize: 14,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                    ),
-
-                    
-                    const SizedBox(height: 10),
-
-                    // Dropdown Button for Language Selection (Now Styled)
-                    SizedBox(
-                      width: screenWidth * 0.71, // Matches title width
-                      child: DropdownButtonFormField<String>(
-                        value: selectedLanguage,
-                        decoration: const InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white, // Strong black outline
-                              width: 2, // Thicker border
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)), // Sharp corners
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white, // Strong black outline
-                              width: 2, // Thicker border
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)), // Sharp corners
-                          ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 22), // Adjust padding
-                        ),
-                        hint: Text(
-                          "Select an option",
-                          textAlign: TextAlign.center,
-                          style: Styles.whiteTextStyle.copyWith(
-                            fontWeight: FontWeight.bold, // Bold text
-                          ),
-                        ),
-                        icon: Container( // Modify the drop down icon
-                          padding: const EdgeInsets.all(0), // Remove padding around the icon
-                          alignment: Alignment.center, // Vertically center icon
-                          child: const Icon(
-                            Icons.arrow_drop_down_circle_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                        items: ["English", "Spanish", "French"]
-                            .map((lang) => DropdownMenuItem(
-                                  value: lang,
-                                  child: Text(
-                                    lang,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold, // Bold text
-                                      color: Colors.black, // Black color
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedLanguage = value;
-                          });
-                        },
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -140,42 +61,22 @@ class _LandingPageState extends State<LandingPage> {
 
             // Buttons at the bottom, centered
             Padding(
-              padding: const EdgeInsets.only(bottom: 20), // Adds bottom padding
+              padding: const EdgeInsets.only(bottom: 40), // Adds bottom padding
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    width: screenWidth * 0.50,
-                      child: OutlinedButton(
-                        style: Styles.button,
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/s/home');
-                        },
-                        child: Text(
-                          "Login as Staff",
-                          style: Styles.whiteTextStyle.copyWith(
-                            fontWeight: FontWeight.bold, // Bold text
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    // ),
-                  ),
-
-                  const SizedBox(height: 1),
-
-                  SizedBox(
-                    width: screenWidth * 0.50, // Makes button width smaller to match wireframe
+                    width: screenWidth * 0.40, // Makes button width smaller to match wireframe
                     child: OutlinedButton(
                       style: Styles.button,
                       onPressed: () {
                         Navigator.pushNamed(context, '/u/verification/phone'); // Regular users will be prompted to the phone number verification screen
                       },
                       child: Text(
-                        "Continue",
+                        "Begin Demo",
                         style: Styles.whiteTextStyle.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -194,42 +95,21 @@ class _LandingPageState extends State<LandingPage> {
                           ),
                           children: [
                             TextSpan(
-                              text: "By using our services, you also agree to our\n",
-                              style: Styles.whiteTextStyle,
-                              ),
-                            TextSpan(
-                              text: "Terms of Use",
+                              text: "Archie Bell prototype, Capstone 2025.\n",
                               style: Styles.whiteTextStyle.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
                                 decoration: TextDecoration.underline,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  // Open Terms of Use
-                                },
-                            ),
-                            TextSpan(
-                              text: " and ",
-                              style: Styles.whiteTextStyle.copyWith(
-                                fontSize: 12,
+                                decorationStyle: TextDecorationStyle.dotted,
                               ),
                             ),
+
                             TextSpan(
-                              text: "Privacy Policy",
+                              text: "Everything is subject to change.",
                               style: Styles.whiteTextStyle.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
                                 decoration: TextDecoration.underline,
+                                decorationStyle: TextDecorationStyle.dotted,
                               ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  // Open Privacy Policy
-                                },
-                            ),
-                            TextSpan(
-                              text: '.',
-                              style: Styles.whiteTextStyle
                             ),
                           ],
                         ),

@@ -1,5 +1,8 @@
+import 'dart:ui'; // Required for ImageFilter.blur
+
 import 'package:app/api/missing_persons_list_api.dart';
 import 'package:app/main.dart';
+import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -25,14 +28,51 @@ class PersonDetailsPage extends StatelessWidget {
       child: DraggableScrollableSheet(
         initialChildSize: 0.7,
         minChildSize: 0.5,
-        maxChildSize: 0.9,
+        maxChildSize: 0.7,
         builder: (_, controller) => Stack(
           children: [
+            // First BackdropFilter for background blur
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // Background blur
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+                  child: Container(
+                    color: Colors.white.withAlpha(30)
+                  ),
+                )
+              ),
+            ),
+
+            // Second BackdropFilter for content container blur
+            Positioned(
+              top: 150, // Adjust the margin here for the second blur
+              left: 0,
+              right: 0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+                child: Container(
+                  // Apply the blur effect to the container background
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0), // Lighter blur effect
+                    child: Container(
+                      color: Colors.white, // Semi-transparent background color for content
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
             // The scrollable content inside the container with BoxDecoration
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                // color: Colors.white.withAlpha(100),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+                border: Border(
+                  top: BorderSide(color: Colors.white, width: 2.0),
+                  left: BorderSide(color: Colors.white, width: 2.0),
+                  right: BorderSide(color: Colors.white, width: 2.0),
+                ),
               ),
               padding: const EdgeInsets.only(
                 top: 250, // Padding at the top for the content
@@ -48,22 +88,46 @@ class PersonDetailsPage extends StatelessWidget {
                   // Person's Name and Age
                   Text(
                     "${person.name}, ${person.age}",
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.3), // Shadow color
+                          offset: Offset(0, 2.0), // Horizontal and vertical offset
+                          blurRadius: 6.0, // Blur radius
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 5),
 
                   // Last Known Location
                   RichText(
                     text: TextSpan(
-                      style: const TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.white),
                       children: [
                         TextSpan(
                             text: "Last known location: ",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.3), // Shadow color
+                                  offset: Offset(0, 2.0), // Horizontal and vertical offset
+                                  blurRadius: 6.0, // Blur radius
+                                ),
+                              ],
+                            )),
                         TextSpan(text: "${person.lastLocationSeen}\n"),
                         TextSpan(
                             text: "Last date/time seen: ",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.3), // Shadow color
+                                  offset: Offset(0, 2.0), // Horizontal and vertical offset
+                                  blurRadius: 6.0, // Blur radius
+                                ),
+                              ],
+                            )),
                         TextSpan(text: person.lastDateTimeSeen)
                       ],
                     ),
@@ -75,33 +139,33 @@ class PersonDetailsPage extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.3), // Shadow color
+                            offset: Offset(0, 2.0), // Horizontal and vertical offset
+                            blurRadius: 6.0, // Blur radius
+                          ),
+                        ],
                       )),
 
                   SizedBox(
                     child: Text(
                       person.additionalInfo,
                       softWrap: true, // Ensures that long text wraps to the next line
-                      textAlign: TextAlign.left, // Optional: Align text as needed
+                      textAlign: TextAlign.left, // Optional: Align text as needed,
+                      style: TextStyle(color: Colors.white,
+                          shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.3), // Shadow color
+                            offset: Offset(0, 2.0), // Horizontal and vertical offset
+                            blurRadius: 6.0, // Blur radius
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(bottom: 20)),
-
-                  // Live Activity Section
-                  const Text("Live Updates",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    height: 270,
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(20),
-                    alignment: Alignment.center,
-                    child: const Text("No Live Updates",
-                        style: TextStyle(color: Colors.grey)),
-                  ),
-                  const SizedBox(height: 85),
                 ],
               ),
             ),
@@ -162,6 +226,15 @@ class PersonDetailsPage extends StatelessWidget {
                     fontSize: 12,
                     decoration: TextDecoration.underline,
                     decorationStyle: TextDecorationStyle.dotted,
+                    decorationColor: Colors.white,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withOpacity(0.3), // Shadow color
+                        offset: Offset(0, 2.0), // Horizontal and vertical offset
+                        blurRadius: 6.0, // Blur radius
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -175,14 +248,7 @@ class PersonDetailsPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
+                  style: Styles.button,
                   onPressed: () {
                     navigatorKey.currentState?.pushNamed('/u/person/details/submission');
                   },

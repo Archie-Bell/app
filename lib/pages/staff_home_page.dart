@@ -40,7 +40,7 @@ class StaffHomepage extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.settings),
+                      icon: Icon(Icons.settings),
                       onPressed: () {
                         Navigator.pushNamed(context, "/d/debug");
                       }, // TODO: Route temporarily to debug
@@ -137,7 +137,7 @@ class StaffHomepage extends StatelessWidget {
                                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                                     style: Styles.liveActivityCardSubtitleStyle, // Custom text style
                                   ),
-                                  trailing: const Icon(Icons.remove_red_eye, color: Styles.liveActivityIconColor),
+                                  trailing: Icon(Icons.remove_red_eye, color: Styles.liveActivityIconColor),
                                 ),
                               ),
                             );
