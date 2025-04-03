@@ -1,19 +1,91 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:app/api/websocket_manager.dart';
 import 'package:app/api/missing_persons_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart'; // Import intl package
 import 'person_details_page.dart';
-import 'package:app/main.dart';
 import 'package:app/theme.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Fetch data using the updated API that now returns an ApiResult
-    Future<ApiResult<List<MissingPerson>>> missingPersons = MissingPersonsListApi.getData();
+  _HomePageState createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  late WebSocketManager _webSocketManager; // WebSocket manager to listen for updates
+  List<MissingPerson> _missingPersons = []; // To hold missing persons list
+
+  @override
+  void initState() {
+    super.initState();
+    _webSocketManager = WebSocketManager();
+
+    // Connect to the WebSocket servers for updates
+    _webSocketManager.connect(
+      'ws://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/ws/active-search-updates/',
+    );
+
+    _webSocketManager.connect(
+      'ws://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/ws/submission-updates/',
+    );
+
+    // Listen for all messages from the WebSocket Manager
+    _webSocketManager.generalMessages.listen((message) {
+      _handleMessage(message);
+    });
+
+    // Fetch the initial list of missing persons
+    _fetchMissingPersons();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _webSocketManager.close(); // Close WebSocket when leaving the page
+  }
+
+  // Function to fetch the initial list of missing persons
+  Future<void> _fetchMissingPersons() async {
+    ApiResult<List<MissingPerson>> result = await MissingPersonsListApi.getData();
+    if (result.data != null) {
+      setState(() {
+        _missingPersons = result.data!;
+      });
+    }
+  }
+
+  // Function to handle incoming WebSocket messages
+  void _handleMessage(String message) {
+    print('================ TRIGGERED');
+    try {
+      var data = jsonDecode(message);
+      print('HP: Received message: $data');
+
+      if (data['type'] == 'update' && data['message'] != null) {
+        // Update the missing persons list when an update is received
+        print('Submission update received: ${data['message']}');
+        setState(() {
+          _fetchMissingPersons();
+        });
+      }
+
+      if (data['type'] == 'active_search_update' && data['message'] != null) {
+        // Handle transaction updates if necessary
+        print('Active search update received: ${data['message']}');
+        setState(() {
+          _fetchMissingPersons();
+        });
+      }
+    } catch (e) {
+      print('Error decoding message: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // Get the current time and date to determine greeting and today's date
     String greeting = _getGreeting();
     String formattedDate = _getFormattedDate();
@@ -40,7 +112,6 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-
               Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: Align(
@@ -85,84 +156,64 @@ class HomePage extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20), // Add rounded corners to the container
-                                  // border: Border.all(color: Colors.white, width: 1), // Optional: Add border
                                 ),
                                 child: ClipRRect( // This ensures that the content inside the container is also clipped to the rounded corners
                                   borderRadius: BorderRadius.circular(22), // Same radius as container
-                                  child: FutureBuilder<ApiResult<List<MissingPerson>>>(
-                                    future: missingPersons,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState == ConnectionState.waiting) {
-                                        return Center(child: CircularProgressIndicator());
-                                      } else if (snapshot.hasError) {
-                                        return Center(child: Text('Error: ${snapshot.error}', style: const TextStyle(color: Colors.white)));
-                                      } else if (snapshot.hasData) {
-                                        if (snapshot.data!.error != null) {
-                                          return Center(child: Text('Error: ${snapshot.data!.error}', style: const TextStyle(color: Colors.white)));
-                                        } else if (snapshot.data!.data!.isEmpty) {
-                                          return Center(child: Text('No missing persons available.', style: const TextStyle(color: Colors.white)));
-                                        } else {
-                                          List<MissingPerson> persons = snapshot.data!.data!;
-                                          return ListView.builder(
-                                            itemCount: persons.length,
-                                            itemBuilder: (context, index) {
-                                              var person = persons[index];
-                                              return Card(
-                                                elevation: 0,
-                                                color: Colors.white.withAlpha(100),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20),
-                                                  side: const BorderSide(color: Colors.white, width: 2),
-                                                ),
-                                                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                                                child: ListTile(
-                                                  leading: SizedBox(
-                                                    width: 50,
-                                                    height: 50,
-                                                    child: ClipOval(
-                                                      child: Image.network(
-                                                        "http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${person.image}",
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context, error, stackTrace) {
-                                                          return Image.asset("images/placeholder-img.jpg", fit: BoxFit.cover); // Fallback if image loading fails
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  title: Text(
-                                                    "${person.name}, ${person.age}",
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  subtitle: Text(
-                                                    "Last location: ${person.lastLocationSeen}",
-                                                    style: const TextStyle(fontSize: 14, color: Colors.white),
-                                                  ),
-                                                  trailing: Icon(Icons.arrow_forward, color: Colors.white),
-                                                  onTap: () {
-                                                    showModalBottomSheet(
-                                                      backgroundColor: Colors.transparent,
-                                                      isScrollControlled: true,
-                                                      context: context,
-                                                      builder: (context) => PersonDetailsPage(person: person),
-                                                    );
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        }
-                                      } else {
-                                        return Center(child: Text('Unexpected error occurred.', style: const TextStyle(color: Colors.white),));
-                                      }
+                                  child: ListView.builder(
+                                    itemCount: _missingPersons.length,
+                                    itemBuilder: (context, index) {
+                                      var person = _missingPersons[index];
+                                      return Card(
+                                        elevation: 0,
+                                        color: Colors.white.withAlpha(100),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20),
+                                          side: const BorderSide(color: Colors.white, width: 2),
+                                        ),
+                                        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                        child: ListTile(
+                                          leading: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: ClipOval(
+                                              child: Image.network(
+                                                "http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${person.image}",
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (context, error, stackTrace) {
+                                                  return Image.asset("images/placeholder-img.jpg", fit: BoxFit.cover); // Fallback if image loading fails
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          title: Text(
+                                            "${person.name}, ${person.age}",
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            "Last location: ${person.lastLocationSeen}",
+                                            style: const TextStyle(fontSize: 14, color: Colors.white),
+                                          ),
+                                          trailing: Icon(Icons.arrow_forward, color: Colors.white),
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                              backgroundColor: Colors.transparent,
+                                              isScrollControlled: true,
+                                              context: context,
+                                              builder: (context) => PersonDetailsPage(person: person),
+                                            );
+                                          },
+                                        ),
+                                      );
                                     },
                                   ),
                                 ),
                               ),
                             ),
+
                           ],
                         ),
                       )
@@ -170,34 +221,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 150),
-
-              // Bottom Navigation
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Container(
-                  padding: const EdgeInsets.all(Styles.buttonContainerPadding),
-                  decoration: BoxDecoration(
-                    color: Styles.buttonContainerBackgroundColor,
-                    borderRadius: BorderRadius.circular(Styles.buttonContainerBorderRadius),
-                    border: Border.all(color: Styles.buttonContainerBorderColor, width: 2),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // First button
-                      _buildBottomButton("Dashboard"),
-
-                      // Spacer between buttons
-                      const SizedBox(width: Styles.buttonSpacing),
-
-                      // Second button
-                      _buildBottomButton("Debug"),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),
@@ -233,52 +257,5 @@ class HomePage extends StatelessWidget {
     final now = DateTime.now();
     final DateFormat formatter = DateFormat('MMMM dd, yyyy'); // You can adjust this format as needed
     return formatter.format(now); // Formats the date
-  }
-
-  // Custom bottom button builder
-  Widget _buildBottomButton(String text) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.resolveWith<Color>(
-              (Set<WidgetState> states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return Styles.buttonPressedBackgroundColor;
-                }
-                return Styles.buttonBackgroundColor;
-              },
-            ),
-            foregroundColor: WidgetStateProperty.resolveWith<Color>(
-              (Set<WidgetState> states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return Styles.buttonPressedForegroundColor;
-                }
-                return Styles.buttonForegroundColor;
-              },
-            ),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Styles.buttonBorderRadius),
-              ),
-            ),
-            padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(vertical: Styles.buttonPaddingVertical),
-            ),
-          ),
-          onPressed: () {
-            navigatorKey.currentState?.pushNamed("/d/debug");
-          },
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: Styles.buttonFontSize,
-              fontWeight: Styles.buttonFontWeight,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
