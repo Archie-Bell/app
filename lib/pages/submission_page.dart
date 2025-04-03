@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:app/api/missing_persons_list_api.dart';
 import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:app/theme.dart';
@@ -36,6 +39,19 @@ class _SubmissionPageState extends State<SubmissionPage> {
     super.initState();
     _missingPersonName = widget.missingPersonName;
     _missingPersonId = widget.missingPersonId;
+  }
+
+  // Convert image file to Base64 string
+  Future<String?> _convertImageToBase64(File? imageFile) async {
+    if (imageFile == null) return null;
+
+    try {
+      final bytes = await imageFile.readAsBytes();  // Read image as bytes
+      return base64Encode(bytes);  // Convert bytes to Base64 string
+    } catch (e) {
+      print("Error converting image to Base64: $e");
+      return null;
+    }
   }
 
   Future _pickImage() async {
@@ -163,16 +179,30 @@ class _SubmissionPageState extends State<SubmissionPage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                // If user presses "No", close the dialog
                 Navigator.of(context).pop();
               },
               child: const Text('No'),
             ),
             TextButton(
-              onPressed: () {
-                // If user presses "Yes", submit the form
-                _showConfirmationDialog();
-                Navigator.of(context).pop(); // Close the dialog
+              onPressed: () async {
+                // Convert image to Base64
+                String? base64Image = await _convertImageToBase64(_selectedImage);
+                
+                // Ensure base64Image is not null and valid
+                if (base64Image != null) {
+                  // If image is selected, submit the form
+                  MissingPersonsListApi.postActiveSearchData(
+                    _missingPersonId, 
+                    base64Image,
+                    _locationController.text,
+                    _rawSelectedDate,
+                    _infoController.text
+                  );
+                } else {
+                  _showErrorDialog('Error: Unable to convert image.');
+                }
+
+                Navigator.of(context).pop();  // Close the dialog
                 navigatorKey.currentState?.popAndPushNamed('/u/home');
               },
               child: const Text('Yes'),

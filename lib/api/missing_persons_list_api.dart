@@ -36,6 +36,35 @@ class MissingPersonsListApi {
       }
     }
   }
+
+  static Future<ApiResult<MissingPerson>> postActiveSearchData(String parentId, String imageUrl, String locationFound, String dateTimeFound, String providedInfo) async {
+    Map<String, dynamic> request = {
+      '_parent_id': parentId,
+      'image_url': imageUrl,
+      'location_found': locationFound,
+      'date_time_found': dateTimeFound,
+      'provided_info': providedInfo,
+    };
+
+    try {
+      final uri = Uri.parse('http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/api/missing-person/submission');
+      final response = await http.post(uri, body: request);
+
+      if (response.statusCode == 200) {
+        return ApiResult(data: MissingPerson.fromJson(json.decode(response.body)));
+      } else {
+        return ApiResult(error: 'An error occurred: ${response.statusCode}');
+      }
+    }
+
+    catch (e) {
+      if (e is SocketException) {
+        return ApiResult(error: 'Backend is offline, unable to fetch data.');
+      } else {
+        return ApiResult(error: 'An error occurred: $e');
+      }
+    }
+  }
 }
 
 class MissingPerson {
