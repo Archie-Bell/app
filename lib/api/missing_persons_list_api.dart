@@ -16,8 +16,11 @@ class ApiResult<T> {
 class MissingPersonsListApi {
   static Future<ApiResult<List<MissingPerson>>> getData() async {
     try {
-      final uri = Uri.parse("http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/api/missing-persons");
-      final response = await http.get(uri);
+      final uri = Uri.parse("https://${dotenv.env['NGROK_ADDRESS']}/api/missing-persons");
+      final response = await http.get(uri, headers: {
+        'ngrok-skip-browser-warning': '59',
+        'Access-Allow-Control-Origin': '*',
+      });
 
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body);
@@ -47,8 +50,11 @@ class MissingPersonsListApi {
     };
 
     try {
-      final uri = Uri.parse('http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/api/missing-person/submission');
-      final response = await http.post(uri, body: request);
+      final uri = Uri.parse('https://${dotenv.env['NGROK_ADDRESS']}/api/missing-person/submission');
+      final response = await http.post(uri, body: request, headers: {
+        'ngrok-skip-browser-warning': '59',
+        'Access-Allow-Control-Origin': '*'
+      });
 
       if (response.statusCode == 200) {
         return ApiResult(data: MissingPerson.fromJson(json.decode(response.body)));

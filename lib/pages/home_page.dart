@@ -25,11 +25,11 @@ class _HomePageState extends State<HomePage> {
 
     // Connect to the WebSocket servers for updates
     _webSocketManager.connect(
-      'ws://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/ws/active-search-updates/',
+      'wss://${dotenv.env['NGROK_ADDRESS']}/ws/active-search-updates/',
     );
 
     _webSocketManager.connect(
-      'ws://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000/ws/submission-updates/',
+      'wss://${dotenv.env['NGROK_ADDRESS']}/ws/submission-updates/',
     );
 
     // Listen for all messages from the WebSocket Manager
@@ -64,15 +64,23 @@ class _HomePageState extends State<HomePage> {
       var data = jsonDecode(message);
       print('HP: Received message: $data');
 
-      if (data['type'] == 'update' && data['message'] != null) {
+      if (data['type'] == 'update') {
         // Update the missing persons list when an update is received
         print('Submission update received: ${data['message']}');
         setState(() {
           _fetchMissingPersons();
         });
       }
+      
+      if (data['type'] == 'transaction') {
+        // Handle transaction updates if necessary
+        print('Transaction update received: ${data['message']}');
+        setState(() {
+          _fetchMissingPersons();
+        });
+      }
 
-      if (data['type'] == 'active_search_update' && data['message'] != null) {
+      if (data['type'] == 'active_search_update') {
         // Handle transaction updates if necessary
         print('Active search update received: ${data['message']}');
         setState(() {
@@ -178,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                                             height: 50,
                                             child: ClipOval(
                                               child: Image.network(
-                                                "http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${person.image}",
+                                                "https://${dotenv.env['NGROK_ADDRESS']}${person.image}",
                                                 fit: BoxFit.cover,
                                                 errorBuilder: (context, error, stackTrace) {
                                                   return Image.asset("images/placeholder-img.jpg", fit: BoxFit.cover); // Fallback if image loading fails
@@ -214,7 +222,6 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       )

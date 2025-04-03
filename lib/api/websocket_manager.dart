@@ -5,9 +5,17 @@ class WebSocketManager {
   // Map of WebSocket connections keyed by their URL for easy reference
   final Map<String, WebSocket> _sockets = {};
   final Map<String, StreamController<String>> _messageControllers = {};
+  final Map<String, Timer> _heartbeatTimers = {}; // To manage heartbeat timers for each connection
 
   // Stream to listen to all messages
   final StreamController<String> _generalMessageController = StreamController<String>();
+
+  // Heartbeat message to send periodically
+  final String heartbeatMessage = '{"type": "ping"}';
+
+
+  // Interval between heartbeats (e.g., 30 seconds)
+  final Duration heartbeatInterval = Duration(seconds: 30);
 
   // Connect to a WebSocket server
   Future<void> connect(String url) async {
@@ -31,10 +39,29 @@ class WebSocketManager {
         _generalMessageController.add(message); // Add to the general message stream
       });
 
+      // Start sending heartbeat pings
+      _startHeartbeat(url);
+
       print('Connected to: $url');
     } catch (e) {
       print('Error connecting to $url: $e');
     }
+  }
+
+  // Start sending heartbeat messages at regular intervals
+  void _startHeartbeat(String url) {
+    _heartbeatTimers[url] = Timer.periodic(heartbeatInterval, (timer) {
+      // Send heartbeat message only if the socket is still open
+      WebSocket? socket = _sockets[url];
+      if (socket != null && socket.readyState == WebSocket.open) {
+        socket.add(heartbeatMessage);
+        print('Heartbeat sent to $url');
+      } else {
+        print('WebSocket for $url is closed, stopping heartbeat');
+        timer.cancel();
+        _heartbeatTimers.remove(url);
+      }
+    });
   }
 
   // Get the messages from a specific WebSocket connection by its URL
@@ -54,6 +81,11 @@ class WebSocketManager {
     // Close each socket connection
     for (var socket in _sockets.values) {
       socket.close();
+    }
+
+    // Cancel any active heartbeat timers
+    for (var timer in _heartbeatTimers.values) {
+      timer.cancel();
     }
 
     // Close all the message controllers

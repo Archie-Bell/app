@@ -209,7 +209,7 @@ class PersonDetailsPage extends StatelessWidget {
                       },
                       blendMode: BlendMode.dstIn, // This blends the image with the gradient effect
                       child: Image.network(
-                        "http://${dotenv.env['YOUR_LOCAL_IP_ADDRESS']}:8000${person.image}",
+                        "https://${dotenv.env['NGROK_ADDRESS']}${person.image}",
                         fit: BoxFit.cover, // Ensure the image covers the entire area
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(

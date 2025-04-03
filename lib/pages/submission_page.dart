@@ -384,7 +384,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                     maxLines: 1,  // Set the maximum number of lines the text field can expand to
                     minLines: 1,  // Set the minimum height (height will increase with content)
                     cursorColor: Colors.white,
-                    maxLength: 16,
+                    maxLength: 30,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     decoration: InputDecoration(
                       fillColor: Colors.black.withAlpha(100),
@@ -397,7 +397,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                         fontWeight: FontWeight.normal,
                         fontSize: 12,
                       ),
-                      hintText: 'Moose Jaw, SK',
+                      hintText: 'Maximum 30 characters.',
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         borderSide: BorderSide(color: Colors.white), // Set border color to white
