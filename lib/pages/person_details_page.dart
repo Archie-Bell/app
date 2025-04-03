@@ -52,13 +52,10 @@ class PersonDetailsPage extends StatelessWidget {
               right: 0,
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
-                child: Container(
-                  // Apply the blur effect to the container background
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0), // Lighter blur effect
-                    child: Container(
-                      color: Colors.white, // Semi-transparent background color for content
-                    ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0), // Lighter blur effect
+                  child: Container(
+                    color: Colors.white, // Semi-transparent background color for content
                   ),
                 ),
               ),
@@ -92,7 +89,7 @@ class PersonDetailsPage extends StatelessWidget {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white,
                       shadows: [
                         Shadow(
-                          color: Colors.black.withOpacity(0.3), // Shadow color
+                          color: Colors.black.withAlpha(70), // Shadow color
                           offset: Offset(0, 2.0), // Horizontal and vertical offset
                           blurRadius: 6.0, // Blur radius
                         ),
@@ -111,25 +108,41 @@ class PersonDetailsPage extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.bold,
                               shadows: [
                                 Shadow(
-                                  color: Colors.black.withOpacity(0.3), // Shadow color
+                                  color: Colors.black.withAlpha(70), // Shadow color
                                   offset: Offset(0, 2.0), // Horizontal and vertical offset
                                   blurRadius: 6.0, // Blur radius
                                 ),
                               ],
                             )),
-                        TextSpan(text: "${person.lastLocationSeen}\n"),
+                        TextSpan(text: "${person.lastLocationSeen}\n", style: TextStyle(
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withAlpha(70),
+                              offset: Offset(0, 2.0), // Horizontal and vertical offset
+                              blurRadius: 6.0, // Blur radius
+                            )
+                          ]
+                        )),
                         TextSpan(
                             text: "Last date/time seen: ",
                             style: TextStyle(fontWeight: FontWeight.bold,
                               shadows: [
                                 Shadow(
-                                  color: Colors.black.withOpacity(0.3), // Shadow color
+                                  color: Colors.black.withAlpha(70), // Shadow color
                                   offset: Offset(0, 2.0), // Horizontal and vertical offset
                                   blurRadius: 6.0, // Blur radius
                                 ),
                               ],
                             )),
-                        TextSpan(text: person.lastDateTimeSeen)
+                        TextSpan(text: person.lastDateTimeSeen, style: TextStyle(
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withAlpha(70),
+                              offset: Offset(0, 2.0), // Horizontal and vertical offset
+                              blurRadius: 6.0, // Blur radius
+                            )
+                          ]
+                        ))
                       ],
                     ),
                   ),
@@ -143,7 +156,7 @@ class PersonDetailsPage extends StatelessWidget {
                         color: Colors.white,
                         shadows: [
                           Shadow(
-                            color: Colors.black.withOpacity(0.3), // Shadow color
+                            color: Colors.black.withAlpha(70), // Shadow color
                             offset: Offset(0, 2.0), // Horizontal and vertical offset
                             blurRadius: 6.0, // Blur radius
                           ),
@@ -158,7 +171,7 @@ class PersonDetailsPage extends StatelessWidget {
                       style: TextStyle(color: Colors.white,
                           shadows: [
                           Shadow(
-                            color: Colors.black.withOpacity(0.3), // Shadow color
+                            color: Colors.black.withAlpha(70), // Shadow color
                             offset: Offset(0, 2.0), // Horizontal and vertical offset
                             blurRadius: 6.0, // Blur radius
                           ),
@@ -231,7 +244,7 @@ class PersonDetailsPage extends StatelessWidget {
                     color: Colors.white,
                     shadows: [
                       Shadow(
-                        color: Colors.black.withOpacity(0.3), // Shadow color
+                        color: Colors.black.withAlpha(70), // Shadow color
                         offset: Offset(0, 2.0), // Horizontal and vertical offset
                         blurRadius: 6.0, // Blur radius
                       ),
