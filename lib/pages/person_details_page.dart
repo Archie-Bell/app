@@ -1,7 +1,6 @@
 import 'dart:ui'; 
 
 import 'package:app/api/missing_persons_list_api.dart';
-import 'package:app/main.dart';
 import 'package:app/pages/submission_page.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';

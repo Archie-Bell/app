@@ -7,7 +7,6 @@ import 'package:app/pages/landing_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/debug_details_page.dart';
 import 'package:app/pages/phone_number_page.dart';
-import 'package:app/pages/submission_page.dart';
 import 'package:app/pages/verification_page.dart';
 import 'package:app/pages/person_details_page.dart';
 import 'package:firebase_core/firebase_core.dart';
