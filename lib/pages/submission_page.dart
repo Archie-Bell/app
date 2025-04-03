@@ -8,21 +8,35 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 
 class SubmissionPage extends StatefulWidget {
-  const SubmissionPage({super.key});
+  final String missingPersonName;
+  final String missingPersonId;
+
+  const SubmissionPage({
+    super.key,
+    required this.missingPersonName,
+    required this.missingPersonId,
+  });
 
   @override
   State<SubmissionPage> createState() => _SubmissionPageState();
 }
 
 class _SubmissionPageState extends State<SubmissionPage> {
+  late String _missingPersonName;
+  late String _missingPersonId;
   File? _selectedImage;
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _infoController = TextEditingController();
 
   String _selectedDate = "Date & time not yet defined.";
-  late String _rawSelectedDate;
+  String _rawSelectedDate = "";
 
-  late final String _missingPersonName = "N/A" as String;
+  @override
+  void initState() {
+    super.initState();
+    _missingPersonName = widget.missingPersonName;
+    _missingPersonId = widget.missingPersonId;
+  }
 
   Future _pickImage() async {
     try {
@@ -157,7 +171,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
             TextButton(
               onPressed: () {
                 // If user presses "Yes", submit the form
-                _submitForm();
+                _showConfirmationDialog();
                 Navigator.of(context).pop(); // Close the dialog
                 navigatorKey.currentState?.popAndPushNamed('/u/home');
               },
@@ -169,11 +183,49 @@ class _SubmissionPageState extends State<SubmissionPage> {
     );
   }
 
-  // Submit form logic
   void _submitForm() {
-    // Handle the submit logic here, e.g., save the data or upload to a server.
-    navigatorKey.currentState?.popAndPushNamed('/u/home');
+    // Validate image, location, date & time, and additional information
+    if (_selectedImage == null) {
+      _showErrorDialog('Please select an image.');
+      return;
+    }
+    if (_locationController.text.isEmpty) {
+      _showErrorDialog('Please provide the location.');
+      return;
+    }
+    if (_rawSelectedDate.isEmpty) {
+      _showErrorDialog('Please select a date and time.');
+      return;
+    }
+    if (_infoController.text.isEmpty || _infoController.text.length < 20) {
+      _showErrorDialog('Information should be at least 20 characters long.');
+      return;
+    }
+
+    // If everything is valid, proceed with submission
+    _showConfirmationDialog();
   }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -468,7 +520,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                   SizedBox(
                     width: double.infinity, // Make submit button take full width
                     child: OutlinedButton(
-                      onPressed: _showConfirmationDialog, // Show confirmation dialog
+                      onPressed: _submitForm, // Show confirmation dialog
                       style: Styles.button,
                       child: const Text(
                         'Submit',

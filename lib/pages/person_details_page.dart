@@ -1,7 +1,8 @@
-import 'dart:ui'; // Required for ImageFilter.blur
+import 'dart:ui'; 
 
 import 'package:app/api/missing_persons_list_api.dart';
 import 'package:app/main.dart';
+import 'package:app/pages/submission_page.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -250,9 +251,17 @@ class PersonDetailsPage extends StatelessWidget {
                 child: ElevatedButton(
                   style: Styles.button,
                   onPressed: () {
-                    navigatorKey.currentState?.pushNamed('/u/person/details/submission');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SubmissionPage(
+                          missingPersonId: person.id,
+                          missingPersonName: person.name,
+                        ),
+                      ),
+                    );
                   },
-                  child: const Text("Found this person?"),
+                  child: const Text("Found this person?", style: TextStyle(color: Colors.white)),
                 ),
               ),
             ),

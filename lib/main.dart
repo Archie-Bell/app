@@ -89,7 +89,6 @@ class ArchieBellApp extends StatelessWidget {
         '/u/home': (context) => const HomePage(), 
         '/u/person/details': (context) => PersonDetailsPage(person: ModalRoute.of(context)!.settings.arguments as MissingPerson), 
         '/s/home': (context) => const StaffHomepage(),
-        '/u/person/details/submission': (context) => const SubmissionPage(),
       },
     );
   }
