@@ -145,6 +145,7 @@ class _HomePageState extends State<HomePage> {
                             Positioned.fill(
                               child: Container(
                                 decoration: BoxDecoration(
+                                  color: Colors.black.withAlpha(50),
                                   borderRadius: BorderRadius.circular(24), // Make sure border radius is the same here
                                   border: Border.all(color: Colors.white, width: 1),
                                 ),
