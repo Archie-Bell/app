@@ -95,7 +95,7 @@ class _LandingPageState extends State<LandingPage> {
                           ),
                           children: [
                             TextSpan(
-                              text: "Archie Bell prototype, Capstone 2025.\n",
+                              text: "Application prototype, Capstone 2025.\n",
                               style: Styles.whiteTextStyle.copyWith(
                                 fontSize: 14,
                                 decoration: TextDecoration.underline,

@@ -32,23 +32,30 @@ class VerificationPage extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Verification code has been sent to your SMS.',
+                    'Thank you! \u{2764}\u{FE0F}',
                     style: Styles.whiteTextStyle.copyWith(
                       fontWeight: FontWeight.bold,
-                      fontSize: 11,
                     ),
                   ),
                 ),
               ),
-              
-              const SizedBox(height: 1), // Space between Text and TextField
 
-              // TextField with dynamic width (based on screen size)
               SizedBox(
-                width: screenWidth * 0.71, // TextField takes up 75% of screen width
-                child: Styles.customTextField(hintText: "123456"),
+                width: screenWidth * 0.71,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Your participation truly means a lot to us.',
+                    style: Styles.whiteTextStyle.copyWith(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.start, // Align text to the start
+                  ),
+                ),
               ),
-              const SizedBox(height: 10),
+              
+              const SizedBox(height: 10), // Space between Text and TextField
 
               // Verify button with same width as TextField (75% of screen width)
               SizedBox(
@@ -59,7 +66,7 @@ class VerificationPage extends StatelessWidget {
                     navigatorKey.currentState?.pushNamed("/u/home");
                   },
                   child: Text(
-                    "Verify",
+                    "Let's go",
                     style: Styles.whiteTextStyle.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -69,32 +76,6 @@ class VerificationPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 10),
-
-              // Resend verification code with dynamic alignment
-              SizedBox(
-                width: screenWidth * 0.71,
-                  child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      style: Styles.whiteTextStyle,
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        // TODO: Add logic to resend verification code
-                      },
-                      children: const [
-                        TextSpan(
-                          text: "Didn't receive it? Send again.",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
 
               const Spacer(),
 
@@ -130,33 +111,26 @@ class VerificationPage extends StatelessWidget {
                     },
                     children: const [
                       TextSpan(
-                        text: 'By using our services, you also agree to our\n',
-                      ),
-                      TextSpan(
-                        text: 'Terms of Use',
+                        text: 'Application prototype, Capstone 2025.\n',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.dotted,
+                          decorationColor: Colors.white,
                         ),
                       ),
                       TextSpan(
-                        text: ' and ',
-                      ),
-                      TextSpan(
-                        text: 'Privacy Policy',
+                        text: 'Everything is subject to change.',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.dotted,
+                          decorationColor: Colors.white,
                         ),
-                      ),
-                      TextSpan(
-                        text: '.',
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 40),
             ],
           ),
         ),

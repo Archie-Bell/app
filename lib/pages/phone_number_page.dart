@@ -32,7 +32,7 @@ class PhoneNumberPage extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Enter your phone number.',
+                    'Welcome to the Archie Bell demo!',
                     style: Styles.whiteTextStyle.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -40,15 +40,25 @@ class PhoneNumberPage extends StatelessWidget {
                   ),
                 ),
               ),
-              
-              const SizedBox(height: 1), // Space between Text and TextField
 
-              // TextField with dynamic width (based on screen size)
               SizedBox(
-                width: screenWidth * 0.71, // TextField takes up 71% of screen width
-                child: Styles.customTextField(hintText: "(123) 456-7890"),
+                width: screenWidth * 0.71,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Thank you for taking the time to become part of this semester\'s capstone demo. ' 
+                    'Please pay attention for instructions during the demo as we showcase not only the application '
+                    'but also the web interface.',
+                    style: Styles.whiteTextStyle.copyWith(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.start, // Align text to the start
+                  ),
+                ),
               ),
-              const SizedBox(height: 10),
+
+              SizedBox(height: 10),
 
               // Continue button with same width as TextField (71% of screen width)
               SizedBox(
@@ -59,7 +69,7 @@ class PhoneNumberPage extends StatelessWidget {
                     navigatorKey.currentState?.pushNamed('/u/verification/pending');
                   },
                   child: Text(
-                    "Continue",
+                    "Next",
                     style: Styles.whiteTextStyle.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -68,32 +78,6 @@ class PhoneNumberPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-          
-              // Info link about why the info is needed
-              SizedBox(
-                width: screenWidth * 0.71,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      style: const TextStyle(color: Colors.white),
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        // TODO: Add logic
-                      },
-                      children: const [
-                        TextSpan(
-                          text: "Why do we need this information?",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
               
               const Spacer(),
 
@@ -116,7 +100,7 @@ class PhoneNumberPage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
               // Bottom text for "Terms of Use" and "Privacy Policy"
               Align(
@@ -130,33 +114,26 @@ class PhoneNumberPage extends StatelessWidget {
                     },
                     children: const [
                       TextSpan(
-                        text: 'By using our services, you also agree to our \n',
-                      ),
-                      TextSpan(
-                        text: 'Terms of Use',
+                        text: 'Application prototype, Capstone 2025.\n',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.dotted,
+                          decorationColor: Colors.white,
                         ),
                       ),
                       TextSpan(
-                        text: ' and ',
-                      ),
-                      TextSpan(
-                        text: 'Privacy Policy',
+                        text: 'Everything is subject to change.',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.dotted,
+                          decorationColor: Colors.white,
                         ),
-                      ),
-                      TextSpan(
-                        text: '.',
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 40),
             ],
           ),
         ),

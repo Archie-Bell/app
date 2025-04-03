@@ -38,7 +38,7 @@ class PersonDetailsPage extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
                   child: Container(
-                    color: Colors.white.withAlpha(30)
+                    color: Colors.white.withAlpha(100)
                   ),
                 )
               ),
