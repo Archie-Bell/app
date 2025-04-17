@@ -86,7 +86,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
           );
         },
       );
-    } on PlatformException catch (e) {
+    } on PlatformException {
       Navigator.of(context).pop();
     }
   }
