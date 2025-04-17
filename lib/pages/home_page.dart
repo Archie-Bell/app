@@ -59,7 +59,6 @@ class _HomePageState extends State<HomePage> {
 
   // Function to handle incoming WebSocket messages
   void _handleMessage(String message) {
-    print('================ TRIGGERED');
     try {
       var data = jsonDecode(message);
       print('HP: Received message: $data');
